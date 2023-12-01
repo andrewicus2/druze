@@ -35,6 +35,6 @@ struct StackItem: Identifiable, Equatable {
     
     var selected: Bool = false
     
-    var backgroundColor: Color?
+    var backgroundColor: Color = .red
     var foreroundColor: Color?
 }

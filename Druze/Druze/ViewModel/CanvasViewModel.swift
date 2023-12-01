@@ -69,9 +69,6 @@ class CanvasViewModel: ObservableObject {
     }
     
     func changeActiveColor(color: Color) {
-        if let active = selected {
-            active.backgroundColor = Color.red
-        }
-        selected.backgroundColor = Color.red
+        selected?.backgroundColor = color
     }
 }

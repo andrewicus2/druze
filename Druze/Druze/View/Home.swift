@@ -52,7 +52,7 @@ struct Home: View {
                     }
                     if(active.type == "rect") {
                         Button {
-                            canvasModel.changeActiveColor(color: .red)
+                            canvasModel.changeActiveColor(color: .blue)
                         } label: {
                             Image(systemName: "paintbrush.fill")
                                 .font(.title3)
