@@ -21,49 +21,45 @@ struct Home: View {
             // Canvas display
             Canvas()
                 .environmentObject(canvasModel)
-                .onTapGesture(count: 1) {
-                    canvasModel.selected?.selected = false
-                    canvasModel.selected = nil
-                }
                 .ignoresSafeArea()
             
             // Selected Tools
-            if let active = canvasModel.selected {
-                HStack() {
-                    Button {
-                        deleteConfirmation = true
-                    } label: {
-                        Image(systemName: "trash")
-                            .font(.title3)
-                    }
-                    
-                    Button {
-                        canvasModel.moveActiveToFront()
-                    } label: {
-                        Image(systemName: "square.2.layers.3d.top.filled")
-                            .font(.title3)
-                    }
-                    
-                    Button {
-                        canvasModel.moveActiveToBack()
-                    } label: {
-                        Image(systemName: "square.2.layers.3d.bottom.filled")
-                            .font(.title3)
-                    }
-                    if(active.type == "rect") {
-                        Button {
-                            canvasModel.changeActiveColor(color: .blue)
-                        } label: {
-                            Image(systemName: "paintbrush.fill")
-                                .font(.title3)
-                        }
-                    }
-                }
-                .foregroundStyle(.white)
-                .padding()
-                .background(.black)
-                .frame(maxHeight: .infinity, alignment: .bottom)
-            }
+//            if let active = canvasModel.selected {
+//                HStack() {
+//                    Button {
+//                        deleteConfirmation = true
+//                    } label: {
+//                        Image(systemName: "trash")
+//                            .font(.title3)
+//                    }
+//                    
+//                    Button {
+//                        canvasModel.moveActiveToFront()
+//                    } label: {
+//                        Image(systemName: "square.2.layers.3d.top.filled")
+//                            .font(.title3)
+//                    }
+//                    
+//                    Button {
+//                        canvasModel.moveActiveToBack()
+//                    } label: {
+//                        Image(systemName: "square.2.layers.3d.bottom.filled")
+//                            .font(.title3)
+//                    }
+//                    if(active.type == "rect") {
+//                        Button {
+//                            canvasModel.changeActiveColor(color: .blue)
+//                        } label: {
+//                            Image(systemName: "paintbrush.fill")
+//                                .font(.title3)
+//                        }
+//                    }
+//                }
+//                .foregroundStyle(.white)
+//                .padding()
+//                .background(.black)
+//                .frame(maxHeight: .infinity, alignment: .bottom)
+//            }
             
             // Toolbar            
             HStack {
@@ -116,10 +112,7 @@ struct Home: View {
         } content: {
             ImagePicker(showPicker: $canvasModel.showImagePicker, imageData: $canvasModel.imageData)
         }
-        .alert("Are you sure you want to delete this?", isPresented: $deleteConfirmation) {
-            Button("Delete", role: .destructive) { canvasModel.deleteActive() }
-            Button("Cancel", role: .cancel) { }
-        }
+        
     }
 }
 

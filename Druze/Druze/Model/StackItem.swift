@@ -32,8 +32,12 @@ struct StackItem: Identifiable, Equatable {
     var lastScale: CGFloat = 1
     var rotation: Angle = .zero
     var lastRotation: Angle = .zero
+        
+    var width: CGFloat = 200
+    var lastWidth: CGFloat = 200
     
-    var selected: Bool = false
+    var height: CGFloat = 200
+    var lastHeight: CGFloat = 200
     
     var backgroundColor: Color = .red
     var foreroundColor: Color?
