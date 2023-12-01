@@ -23,12 +23,10 @@ struct Canvas: View {
                         stackItem.view
                             .padding(stackItem.id == canvasModel.selected?.id ? 4 : 0)
                             .border(.green, width: stackItem.id == canvasModel.selected?.id ? 4 : 0)
-                    } changeBGColor: {
-                        
                     } selected: {
                         selected(stackItem: stackItem)
-                    } changeColorCallback: { color in
-                        changeColor(stackItem: stackItem, color: color)
+                    } changeColorCallback: {
+                        canvasModel.changeActiveColor()
                     }
                 }
             }
@@ -48,10 +46,7 @@ struct Canvas: View {
             return item.id == stackItem.id
         } ?? 0
     }
-        
-    func changeColor(stackItem: StackItem, color: Color) {
-        canvasModel.selected?.backgroundColor = color
-    }
+
 }
 
 #Preview {
@@ -62,52 +57,30 @@ struct Canvas: View {
 struct CanvasSubView<Content: View>: View {
     var content: Content
     @Binding var stackItem: StackItem
-    var changeBGColor: ()->()
-    var selected: ()->()
-    
+    var selected: () -> ()
 
-    
+    @EnvironmentObject var canvasModel: CanvasViewModel
+
     @State var hapticScale: CGFloat = 1
-    
-    var changeColorCallback: (Color) -> Void
 
-        // ... rest of the code
+    var changeColorCallback: () -> Void
 
-        init(stackItem: Binding<StackItem>, @ViewBuilder content: @escaping () -> Content, changeBGColor: @escaping () -> (), selected: @escaping () -> (), changeColorCallback: @escaping (Color) -> Void) {
-            self.content = content()
-            self._stackItem = stackItem
-            self.changeBGColor = changeBGColor
-            self.selected = selected
-            self.changeColorCallback = changeColorCallback
-        }
+    init(stackItem: Binding<StackItem>, @ViewBuilder content: @escaping () -> Content, selected: @escaping () -> (), changeColorCallback: @escaping () -> Void) {
+        self.content = content()
+        self._stackItem = stackItem
+        self.selected = selected
+        self.changeColorCallback = changeColorCallback
+    }
 
-        // ... rest of the code
+    func changeColor() {
+        print(stackItem.backgroundColor)
+        stackItem.backgroundColor = canvasModel.selectedColor
+        changeColorCallback()
+    }
 
-        func changeColor(color: Color) {
-            stackItem.backgroundColor = color
-            changeColorCallback(color) // Invoke the callback in the function
-        }
-    
     var body: some View {
-//        ZStack {
-//            if let contentR = stackItem.rect {
-//                contentR
-//                    .fill($stackItem.backgroundColor.wrappedValue ?? Color.black)
-//                    .frame(width: 200, height: 200)
-//            } else if let contentI = stackItem.image {
-//                contentI
-//                    .resizable()
-//                    .aspectRatio(contentMode: .fit)
-//                    .frame(width: UIScreen.main.bounds.width / 1.5)
-//            } else if let contentT = stackItem.text {
-//                contentT
-//                    .font(.title3)
-//                    .foregroundStyle(.black)
-//            }
-//        }
         ZStack {
             if let contentR = stackItem.rect {
-                let _ = print(stackItem.backgroundColor)
                 contentR
                     .fill(stackItem.backgroundColor)
                     .frame(width: 200, height: 200)
@@ -117,7 +90,7 @@ struct CanvasSubView<Content: View>: View {
                     .offset(stackItem.offset)
                     .onLongPressGesture(minimumDuration: 0.3) {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        withAnimation(.easeInOut){
+                        withAnimation(.easeInOut) {
                             hapticScale = 1.2
                         }
                         withAnimation(.easeInOut.delay(0.05)) {
@@ -138,29 +111,20 @@ struct CanvasSubView<Content: View>: View {
                         MagnifyGesture()
                             .onChanged({ value in
                                 stackItem.scale = stackItem.lastScale + (value.magnification - 1)
-                            }) .onEnded({ value in
+                            }).onEnded({ value in
                                 stackItem.lastScale = stackItem.scale
                             })
                             .simultaneously(with:
-                                                RotationGesture()
-                                .onChanged({ value in
-                                    stackItem.rotation = stackItem.lastRotation + value
-                                }).onEnded({ value in
-                                    stackItem.lastRotation = stackItem.rotation
-                                })
-                                           )
+                                RotationGesture()
+                                    .onChanged({ value in
+                                        stackItem.rotation = stackItem.lastRotation + value
+                                    }).onEnded({ value in
+                                        stackItem.lastRotation = stackItem.rotation
+                                    })
+                            )
                     )
-
-                
-                if(stackItem.selected) {
-                    Button {
-                        changeColor(color: .green)
-                    } label: {
-                        Image(systemName: "paintbrush.fill")
-                            .font(.title3)
-                    }
-                }
             }
         }
     }
 }
+

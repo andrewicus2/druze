@@ -51,11 +51,19 @@ struct Home: View {
                             .font(.title3)
                     }
                     if(active.type == "rect") {
-                        Button {
-                            canvasModel.changeActiveColor(color: .blue)
-                        } label: {
-                            Image(systemName: "paintbrush.fill")
-                                .font(.title3)
+                        HStack{
+                            Button {
+                                canvasModel.showColorPicker.toggle()
+                            } label: {
+                                Image(systemName: "paintbrush.fill")
+                                    .font(.title3)
+                            }
+                            Button {
+                                canvasModel.changeActiveColor()
+                            } label: {
+                                Image(systemName: "checkmark")
+                                    .font(.title3)
+                            }
                         }
                     }
                 }
@@ -120,6 +128,10 @@ struct Home: View {
             Button("Delete", role: .destructive) { canvasModel.deleteActive() }
             Button("Cancel", role: .cancel) { }
         }
+        .sheet(isPresented: $canvasModel.showColorPicker) {
+            ColorPicker("Pick a color", selection: $canvasModel.selectedColor)
+        }
+
     }
 }
 

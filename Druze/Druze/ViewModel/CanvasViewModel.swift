@@ -14,6 +14,16 @@ class CanvasViewModel: ObservableObject {
     
     @Published var selected: StackItem?
     
+    @Published var selectedColor: Color = .blue
+    @Published var showColorPicker: Bool = false
+    
+    func changeActiveColor() {
+        print("CALLED")
+        print(selected?.backgroundColor)
+        selected?.backgroundColor = selectedColor
+        objectWillChange.send()
+    }
+    
     // Image Picker
     @Published var showImagePicker: Bool = false
     @Published var imageData: Data = .init(count: 0)
