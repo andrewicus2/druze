@@ -12,6 +12,7 @@ import SwiftUI
 struct Home: View {
     @StateObject var canvasModel: CanvasViewModel = .init()
     @State private var deleteConfirmation: Bool = false
+    @State private var addingText: Bool = false
     
     var body: some View {
         ZStack {
@@ -23,87 +24,38 @@ struct Home: View {
                 .environmentObject(canvasModel)
                 .ignoresSafeArea()
             
-            // Selected Tools
-//            if let active = canvasModel.selected {
-//                HStack() {
-//                    Button {
-//                        deleteConfirmation = true
-//                    } label: {
-//                        Image(systemName: "trash")
-//                            .font(.title3)
-//                    }
-//                    
-//                    Button {
-//                        canvasModel.moveActiveToFront()
-//                    } label: {
-//                        Image(systemName: "square.2.layers.3d.top.filled")
-//                            .font(.title3)
-//                    }
-//                    
-//                    Button {
-//                        canvasModel.moveActiveToBack()
-//                    } label: {
-//                        Image(systemName: "square.2.layers.3d.bottom.filled")
-//                            .font(.title3)
-//                    }
-//                    if(active.type == "rect") {
-//                        Button {
-//                            canvasModel.changeActiveColor(color: .blue)
-//                        } label: {
-//                            Image(systemName: "paintbrush.fill")
-//                                .font(.title3)
-//                        }
-//                    }
-//                }
-//                .foregroundStyle(.white)
-//                .padding()
-//                .background(.black)
-//                .frame(maxHeight: .infinity, alignment: .bottom)
-//            }
-            
             // Toolbar            
             HStack {
-                
-                Spacer()
-
                 HStack(spacing: 24) {
                     Button {
                         canvasModel.showImagePicker.toggle()
                     } label: {
                         Image(systemName: "photo")
-                            .font(.title3)
+                            .font(.system(size: 40))
                     }
                     Button {
-                        canvasModel.addTextToStack()
+                        addingText.toggle()
                     } label: {
                         Image(systemName: "character.textbox")
-                            .font(.title3)
+                            .font(.system(size: 40))
                     }
 
                     Button {
                         canvasModel.addShapeToStack()
                     } label: {
                         Image(systemName: "plus")
-                            .font(.title3)
+                            .font(.system(size: 40))
                     }
                 }
             }
-            .foregroundStyle(.white)
-            .padding()
-            .background(.black)
-            .frame(maxHeight: .infinity, alignment: .top)
-            
-            Button {
-                
-            } label: {
-                Image(systemName: "arrow.right.circle.fill")
-                    .font(.largeTitle)
-                    .foregroundColor(.white)
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
-
+            .padding(24)
+            .foregroundStyle(.black)
+            .background(.thinMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: 30))
+            .frame(maxHeight: .infinity, alignment: .bottom)
+            .ignoresSafeArea()
+            .padding(20)
         }
-        .preferredColorScheme(.dark)
         .alert(canvasModel.errorMessage, isPresented: $canvasModel.showError) {}
         .sheet(isPresented: $canvasModel.showImagePicker) {
             if let image = UIImage(data: canvasModel.imageData) {
@@ -112,10 +64,35 @@ struct Home: View {
         } content: {
             ImagePicker(showPicker: $canvasModel.showImagePicker, imageData: $canvasModel.imageData)
         }
+        .sheet(isPresented: $addingText) {
+            SheetView(canvasModel: canvasModel)
+        }
         
     }
 }
 
 #Preview {
     Home()
+}
+
+struct SheetView: View {
+    @Environment(\.dismiss) var dismiss
+    @StateObject var canvasModel: CanvasViewModel
+    @State var text = "Lorem Ipsum"
+    
+    var body: some View {
+        VStack {
+            TextField("Text Field", text: $text)
+                .padding()
+                .background(.thinMaterial)
+            Button("Save") {
+                canvasModel.addTextToStack(text: text)
+                dismiss()
+            }
+            Button("Cancel") {
+                dismiss()
+            }
+        }
+        .padding()
+    }
 }

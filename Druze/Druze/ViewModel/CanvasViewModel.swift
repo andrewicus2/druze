@@ -39,11 +39,11 @@ class CanvasViewModel: ObservableObject {
         stack.append(StackItem(view: AnyView(rect), type: "rect", rect: rect))
     }
     
-    func addTextToStack() {
-        let text = Text("Lorem Ipsum")
- 
+    func addTextToStack(text: String) {
         
-        stack.append(StackItem(view: AnyView(text), type: "text", text: text))
+        let textView = Text(text)
+        
+        stack.append(StackItem(view: AnyView(textView), type: "text", text: textView))
     }
     
     func getActiveIndex() -> Int {

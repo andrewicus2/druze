@@ -39,6 +39,8 @@ struct StackItem: Identifiable, Equatable {
     var height: CGFloat = 200
     var lastHeight: CGFloat = 200
     
+    var textBody: String = "Lorem Ipsum"
+    
     var backgroundColor: Color = .red
     var foreroundColor: Color?
 }

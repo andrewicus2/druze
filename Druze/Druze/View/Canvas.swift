@@ -75,6 +75,7 @@ struct CanvasSubView<Content: View>: View {
     var moveToFront: ()->()
     @State var deleteConfirmation: Bool = false
     @State var height: CGFloat = .zero
+    @State var width: CGFloat = .zero
     var selectedItem: StackItem?
 
     @EnvironmentObject var canvasModel: CanvasViewModel
@@ -105,7 +106,7 @@ struct CanvasSubView<Content: View>: View {
                         .frame(width: stackItem.width)
                 } else if let contentT = stackItem.text {
                     contentT
-                        .font(.title3)
+                        .font(.title)
                         .foregroundStyle(.black)
                         .padding()
                         .background(stackItem.backgroundColor)
@@ -118,6 +119,7 @@ struct CanvasSubView<Content: View>: View {
             )
             .rotationEffect(stackItem.rotation)
             .scaleEffect(hapticScale)
+            .scaleEffect(stackItem.type == "text" ? stackItem.scale : 1)
             .offset(stackItem.offset)
             .onLongPressGesture(minimumDuration: 0.3) {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
@@ -143,9 +145,13 @@ struct CanvasSubView<Content: View>: View {
                         stackItem.scale = stackItem.lastScale + (value.magnification - 1)
                         stackItem.width = stackItem.lastWidth * stackItem.scale
                         stackItem.height = stackItem.lastHeight * stackItem.scale
-                    }) .onEnded({ value in
+                    })
+                    .onEnded({ value in
                         stackItem.lastWidth = stackItem.width
                         stackItem.lastHeight = stackItem.height
+                        if (stackItem.type == "text") {
+                            stackItem.lastScale = stackItem.scale
+                        }
                     })
                     .simultaneously(with: RotationGesture()
                         .onChanged({ value in
@@ -161,9 +167,12 @@ struct CanvasSubView<Content: View>: View {
                 Color.clear
                     .onAppear {
                         height = geo.size.height
+                        width = geo.size.width
                     }
                     .onChange(of:stackItem.width) {
+                        print(geo.size.height)
                         height = geo.size.height
+                        width = geo.size.width
                     }
             }
         )
@@ -171,11 +180,20 @@ struct CanvasSubView<Content: View>: View {
             Button("Delete", role: .destructive) { deleteItem() }
             Button("Cancel", role: .cancel) { }
         }
+        
         if(canvasModel.selected == stackItem) {
             HStack(spacing: 10) {
-                if(canvasModel.selected?.type == "rect") {
+                if(canvasModel.selected?.type != "img") {
                     ColorPicker("Color Picker", selection: $stackItem.backgroundColor)
                         .labelsHidden()
+                }
+                if(canvasModel.selected?.type == "text") {
+                    Button {
+//                        changingText.toggle()
+                        print(stackItem.textBody)
+                    } label: {
+                        Image(systemName: "textformat")
+                    }
                 }
                 
                 Button {
@@ -196,8 +214,11 @@ struct CanvasSubView<Content: View>: View {
             .background(.ultraThinMaterial)
             
             .clipShape(RoundedRectangle(cornerRadius: 10))
-            .frame(width: stackItem.width + 20, height: height + 20, alignment: .bottomTrailing)
+            .frame(width: width + 20, height: height + 40, alignment: .bottomTrailing)
             .offset(stackItem.offset)
         }
     }
 }
+
+
+
