@@ -10,7 +10,7 @@
 import SwiftUI
 
 struct Home: View {
-    @StateObject var canvasModel: CanvasViewModel = .init()
+    @ObservedObject var canvasModel: CanvasViewModel = .init()
     @State private var deleteConfirmation: Bool = false
     
     var body: some View {

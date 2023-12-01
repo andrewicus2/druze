@@ -18,8 +18,10 @@ struct Canvas: View {
             ZStack {
                 Color.white
                 
-                ForEach($canvasModel.stack) { $stackItem in
-                    CanvasSubView(stackItem: $stackItem) {
+                ForEach(canvasModel.stack.indices, id: \.self) { index in
+                    let stackItem = canvasModel.stack[index]
+                    GeometryReader { gemoetry in}
+                    CanvasSubView(stackItem: stackItem) {
                         stackItem.view
                             .padding(stackItem.id == canvasModel.selected?.id ? 4 : 0)
                             .border(.green, width: stackItem.id == canvasModel.selected?.id ? 4 : 0)
@@ -28,6 +30,7 @@ struct Canvas: View {
                     } selected: {
                         selected(stackItem: stackItem)
                     }
+                    .id(stackItem.id)
                 }
             }
             .frame(width: size.width, height: size.height)
@@ -35,6 +38,7 @@ struct Canvas: View {
         .frame(maxHeight: height)
         .clipped()
     }
+    
     
     func selected(stackItem: StackItem) {
         canvasModel.selected?.selected = false
@@ -63,24 +67,24 @@ struct Canvas: View {
 // Canvas Subview
 struct CanvasSubView<Content: View>: View {
     var content: Content
-    @Binding var stackItem: StackItem
-    var moveFront: ()->()
-    var selected: ()->()
+    var stackItem: StackItem
+    var moveFront: () -> ()
+    var selected: () -> ()
     
-    init(stackItem: Binding<StackItem>, @ViewBuilder content: @escaping ()-> Content, moveFront: @escaping ()->(), selected: @escaping ()->()) {
+    @State private var hapticScale: CGFloat = 1
+    
+    init(stackItem: StackItem, @ViewBuilder content: @escaping () -> Content, moveFront: @escaping () -> (), selected: @escaping () -> ()) {
         self.content = content()
-        self._stackItem = stackItem
+        self.stackItem = stackItem
         self.moveFront = moveFront
         self.selected = selected
     }
-    
-    @State var hapticScale: CGFloat = 1
-    
+        
     var body: some View {
         ZStack {
             if let contentR = stackItem.rect {
                 contentR
-                    .fill($stackItem.backgroundColor.wrappedValue ?? Color.black)
+                    .fill(stackItem.backgroundColor ?? Color.black)
                     .frame(width: 200, height: 200)
             } else if let contentI = stackItem.image {
                 contentI
@@ -93,44 +97,48 @@ struct CanvasSubView<Content: View>: View {
                     .foregroundStyle(.black)
             }
         }
-            .rotationEffect(stackItem.rotation)
-            .scaleEffect(stackItem.scale < 0.4 ? 0.4 : stackItem.scale)
-            .scaleEffect(hapticScale)
-            .offset(stackItem.offset)
-            .onLongPressGesture(minimumDuration: 0.3) {
-                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                withAnimation(.easeInOut){
-                    hapticScale = 1.2
+        .onChange(of: stackItem.offset) { _ in
+                    // Force a redraw when the offset changes
                 }
-                withAnimation(.easeInOut.delay(0.05)) {
-                    hapticScale = 1
-                }
-                stackItem.selected.toggle()
-                selected()
+        .rotationEffect(stackItem.rotation)
+        .scaleEffect(stackItem.scale < 0.4 ? 0.4 : stackItem.scale)
+        .scaleEffect(hapticScale)
+        .offset(stackItem.offset)
+        .onLongPressGesture(minimumDuration: 0.3) {
+            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+            withAnimation(.easeInOut){
+                hapticScale = 1.2
             }
-            .gesture(
-                DragGesture()
+            withAnimation(.easeInOut.delay(0.05)) {
+                hapticScale = 1
+            }
+            stackItem.selected.toggle()
+            selected()
+        }
+        .gesture(
+            DragGesture()
+                .onChanged({ value in
+                    stackItem.offset = CGSize(width: stackItem.lastOffset.width + value.translation.width, height: stackItem.lastOffset.height + value.translation.height)
+                    print(stackItem.offset)
+                }).onEnded({ value in
+                    stackItem.lastOffset = stackItem.offset
+                })
+        )
+        .gesture(
+            MagnifyGesture()
+                .onChanged({ value in
+                    stackItem.scale = stackItem.lastScale + (value.magnification - 1)
+                }) .onEnded({ value in
+                    stackItem.lastScale = stackItem.scale
+                })
+                .simultaneously(with:
+                    RotationGesture()
                     .onChanged({ value in
-                        stackItem.offset = CGSize(width: stackItem.lastOffset.width + value.translation.width, height: stackItem.lastOffset.height + value.translation.height)
+                        stackItem.rotation = stackItem.lastRotation + value
                     }).onEnded({ value in
-                        stackItem.lastOffset = stackItem.offset
+                        stackItem.lastRotation = stackItem.rotation
                     })
-            )
-            .gesture(
-                MagnifyGesture()
-                    .onChanged({ value in
-                        stackItem.scale = stackItem.lastScale + (value.magnification - 1)
-                    }) .onEnded({ value in
-                        stackItem.lastScale = stackItem.scale
-                    })
-                    .simultaneously(with:
-                        RotationGesture()
-                        .onChanged({ value in
-                            stackItem.rotation = stackItem.lastRotation + value
-                        }).onEnded({ value in
-                            stackItem.lastRotation = stackItem.rotation
-                        })
-                    )
-            )
+                )
+        )
     }
 }

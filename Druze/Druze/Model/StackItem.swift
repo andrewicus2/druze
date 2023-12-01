@@ -8,7 +8,8 @@
 import SwiftUI
 
 
-// Holds each Stack Item View
+import SwiftUI
+
 class StackItem: ObservableObject, Identifiable, Equatable {
     var id = UUID().uuidString
     var view: AnyView
@@ -18,29 +19,32 @@ class StackItem: ObservableObject, Identifiable, Equatable {
     var rect: Rectangle?
     var text: Text?
     
+    // Gesture Properties
+    @Published var offset: CGSize = .zero
+    @Published var lastOffset: CGSize = .zero
+    @Published var scale: CGFloat = 1
+    @Published var lastScale: CGFloat = 1
+    @Published var rotation: Angle = .zero
+    @Published var lastRotation: Angle = .zero
     
-    // Equatable - Drew
+    @Published var selected: Bool = false
+    
+    @Published var backgroundColor: Color?
+    @Published var foregroundColor: Color?
+    
+    // Equatable
     static func ==(st1: StackItem, st2: StackItem) -> Bool {
         return st1.id == st2.id
     }
     
-    // Gesture Properties
-    
-    var offset: CGSize = .zero
-    var lastOffset: CGSize = .zero
-    var scale: CGFloat = 1
-    var lastScale: CGFloat = 1
-    var rotation: Angle = .zero
-    var lastRotation: Angle = .zero
-    
-    var selected: Bool = false
-    
-    @Published var backgroundColor: Color?
-//    var foreroundColor: Color?
-    
-    init(view: AnyView, type: String, backgroundColor: Color?, foregroundColor: Color?) {
+    init(view: AnyView, type: String, backgroundColor: Color? = Color.black, foregroundColor: Color? = Color.black,
+         image: Image? = nil, rect: Rectangle? = nil, text: Text? = nil) {
         self.view = view
         self.type = type
         self.backgroundColor = backgroundColor
+        self.foregroundColor = foregroundColor
+        self.image = image
+        self.rect = rect
+        self.text = text
     }
 }

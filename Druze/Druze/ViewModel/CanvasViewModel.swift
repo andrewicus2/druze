@@ -28,7 +28,7 @@ class CanvasViewModel: ObservableObject {
         
         let imageView = Image(uiImage: image)
         
-        stack.append(StackItem(view: AnyView(imageView), type: "img", image: imageView, foregroundColor: .black, backgroundColor: .black))
+        stack.append(StackItem(view: AnyView(imageView), type: "img", image: imageView))
     }
     
     // Drew's Code
@@ -72,6 +72,6 @@ class CanvasViewModel: ObservableObject {
         if let active = selected {
             active.backgroundColor = Color.red
         }
-        selected.backgroundColor = Color.red
+        selected?.backgroundColor = Color.red
     }
 }
