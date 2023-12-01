@@ -28,7 +28,7 @@ class CanvasViewModel: ObservableObject {
         
         let imageView = Image(uiImage: image)
         
-        stack.append(StackItem(view: AnyView(imageView), type: "img", image: imageView))
+        stack.append(StackItem(view: AnyView(imageView), type: "img", image: imageView, foregroundColor: .black, backgroundColor: .black))
     }
     
     // Drew's Code

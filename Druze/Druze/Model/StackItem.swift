@@ -9,7 +9,7 @@ import SwiftUI
 
 
 // Holds each Stack Item View
-struct StackItem: Identifiable, Equatable {
+class StackItem: ObservableObject, Identifiable, Equatable {
     var id = UUID().uuidString
     var view: AnyView
     var type: String
@@ -35,6 +35,12 @@ struct StackItem: Identifiable, Equatable {
     
     var selected: Bool = false
     
-    var backgroundColor: Color?
-    var foreroundColor: Color?
+    @Published var backgroundColor: Color?
+//    var foreroundColor: Color?
+    
+    init(view: AnyView, type: String, backgroundColor: Color?, foregroundColor: Color?) {
+        self.view = view
+        self.type = type
+        self.backgroundColor = backgroundColor
+    }
 }
