@@ -33,10 +33,10 @@ class CanvasViewModel: ObservableObject {
     
     // Drew's Code
     
-    func addShapeToStack() {
-        let rect = Rectangle()
+    func addShapeToStack(type: String) {
+        let shape = Image(systemName: "\(type).fill")
         
-        stack.append(StackItem(view: AnyView(rect), type: "rect", rect: rect))
+        stack.append(StackItem(view: AnyView(shape), type: "shape", shape: shape))
     }
     
     func addTextToStack(text: String) {

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A2EE9092B1BC4FB000A83DD /* Star.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2EE9082B1BC4FB000A83DD /* Star.swift */; };
 		3A9335372B1121C2006B4916 /* Druze.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9335362B1121C2006B4916 /* Druze.swift */; };
 		3A9335392B1121C2006B4916 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9335382B1121C2006B4916 /* ContentView.swift */; };
 		3A93353B2B1121C3006B4916 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A93353A2B1121C3006B4916 /* Assets.xcassets */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3A2EE9082B1BC4FB000A83DD /* Star.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Star.swift; sourceTree = "<group>"; };
 		3A9335332B1121C2006B4916 /* Dragging Text.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dragging Text.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A9335362B1121C2006B4916 /* Druze.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Druze.swift; sourceTree = "<group>"; };
 		3A9335382B1121C2006B4916 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 			children = (
 				3A9335472B112574006B4916 /* Home.swift */,
 				3A9335492B11268C006B4916 /* Canvas.swift */,
+				3A2EE9082B1BC4FB000A83DD /* Star.swift */,
 				3A9335512B112BEB006B4916 /* ImagePicker.swift */,
 			);
 			path = View;
@@ -183,6 +186,7 @@
 				3A9335482B112574006B4916 /* Home.swift in Sources */,
 				3A9335372B1121C2006B4916 /* Druze.swift in Sources */,
 				3A93354A2B11268C006B4916 /* Canvas.swift in Sources */,
+				3A2EE9092B1BC4FB000A83DD /* Star.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

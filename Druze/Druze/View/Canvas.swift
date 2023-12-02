@@ -77,9 +77,8 @@ struct CanvasSubView<Content: View>: View {
     @State var height: CGFloat = .zero
     @State var width: CGFloat = .zero
     var selectedItem: StackItem?
-
+    
     @EnvironmentObject var canvasModel: CanvasViewModel
-
     
     @State var hapticScale: CGFloat = 1
     
@@ -93,75 +92,75 @@ struct CanvasSubView<Content: View>: View {
     }
     
     var body: some View {
-        VStack {
-            ZStack {
-                if let contentR = stackItem.rect {
-                    contentR
-                        .fill(stackItem.backgroundColor)
-                        .frame(width: stackItem.width, height: stackItem.height)
-                } else if let contentI = stackItem.image {
-                    contentI
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: stackItem.width)
-                } else if let contentT = stackItem.text {
-                    contentT
-                        .font(.title)
-                        .foregroundStyle(.black)
-                        .padding()
-                        .background(stackItem.backgroundColor)
-                }
+        ZStack {
+            if let contentS = stackItem.shape {
+                contentS
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .foregroundStyle(stackItem.backgroundColor)
+                    .frame(width: stackItem.width)
+            } else if let contentI = stackItem.image {
+                contentI
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: stackItem.width)
+            } else if let contentT = stackItem.text {
+                contentT
+                    .font(.system(size: 500))
+                    .minimumScaleFactor(0.01)
+                    .lineLimit(1)
+                    .fontWeight(stackItem.textBold ? .bold : .regular)
+                    .foregroundStyle(stackItem.textColor)
+                    .padding(20)
+                    .frame(width: stackItem.width)
+                    .background(stackItem.backgroundColor)
             }
-            .clipShape(RoundedRectangle(cornerRadius: 10))
-            .overlay( /// apply a rounded border https://stackoverflow.com/questions/71744888/swiftui-view-with-rounded-corners-and-border
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(.thinMaterial, lineWidth: stackItem == selectedItem ? 5 : 0)
-            )
-            .rotationEffect(stackItem.rotation)
-            .scaleEffect(hapticScale)
-            .scaleEffect(stackItem.type == "text" ? stackItem.scale : 1)
-            .offset(stackItem.offset)
-            .onLongPressGesture(minimumDuration: 0.3) {
-                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                withAnimation(.easeInOut){
-                    hapticScale = 1.2
-                }
-                withAnimation(.easeInOut.delay(0.05)) {
-                    hapticScale = 1
-                }
-                selected()
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .overlay( /// apply a rounded border https://stackoverflow.com/questions/71744888/swiftui-view-with-rounded-corners-and-border
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(.thinMaterial, lineWidth: stackItem == selectedItem ? 5 : 0)
+        )
+        .rotationEffect(stackItem.rotation)
+        .scaleEffect(hapticScale)
+        .scaleEffect(1)
+        .offset(stackItem.offset)
+        .onLongPressGesture(minimumDuration: 0.3) {
+            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+            withAnimation(.easeInOut){
+                hapticScale = 1.2
             }
-            .gesture(
-                DragGesture()
+            withAnimation(.easeInOut.delay(0.05)) {
+                hapticScale = 1
+            }
+            selected()
+        }
+        .gesture(
+            MagnifyGesture()
+                .onChanged({ value in
+                    stackItem.scale = stackItem.lastScale + (value.magnification - 1)
+                    stackItem.width = stackItem.lastWidth * stackItem.scale
+                    stackItem.height = stackItem.lastHeight * stackItem.scale
+                })
+                .onEnded({ value in
+                    stackItem.lastWidth = stackItem.width
+                    stackItem.lastHeight = stackItem.height
+                })
+                .simultaneously(with: RotationGesture()
+                    .onChanged({ value in
+                        stackItem.rotation = stackItem.lastRotation + value
+                    }).onEnded({ value in
+                        stackItem.lastRotation = stackItem.rotation
+                    })
+                )
+                .simultaneously(with: DragGesture()
                     .onChanged({ value in
                         stackItem.offset = CGSize(width: stackItem.lastOffset.width + value.translation.width, height: stackItem.lastOffset.height + value.translation.height)
                     }).onEnded({ value in
                         stackItem.lastOffset = stackItem.offset
                     })
-            )
-            .gesture(
-                MagnifyGesture()
-                    .onChanged({ value in
-                        stackItem.scale = stackItem.lastScale + (value.magnification - 1)
-                        stackItem.width = stackItem.lastWidth * stackItem.scale
-                        stackItem.height = stackItem.lastHeight * stackItem.scale
-                    })
-                    .onEnded({ value in
-                        stackItem.lastWidth = stackItem.width
-                        stackItem.lastHeight = stackItem.height
-                        if (stackItem.type == "text") {
-                            stackItem.lastScale = stackItem.scale
-                        }
-                    })
-                    .simultaneously(with: RotationGesture()
-                        .onChanged({ value in
-                            stackItem.rotation = stackItem.lastRotation + value
-                        }).onEnded({ value in
-                            stackItem.lastRotation = stackItem.rotation
-                        })
-                    )
-            )
-        }
+                ))
+        
         .background(
             GeometryReader { geo in
                 Color.clear
@@ -169,8 +168,8 @@ struct CanvasSubView<Content: View>: View {
                         height = geo.size.height
                         width = geo.size.width
                     }
-                    .onChange(of:stackItem.width) {
-                        print(geo.size.height)
+                    .onChange(of:stackItem.scale) {
+                        
                         height = geo.size.height
                         width = geo.size.width
                     }
@@ -181,18 +180,29 @@ struct CanvasSubView<Content: View>: View {
             Button("Cancel", role: .cancel) { }
         }
         
+        
+        
+        /// UI ON SELECTION
+        ///  CANNOT FIGURE OUT HOW TO ALIGN THIS TO THE BOTTOM OF THE VIEW
         if(canvasModel.selected == stackItem) {
-            HStack(spacing: 10) {
+            HStack {
                 if(canvasModel.selected?.type != "img") {
-                    ColorPicker("Color Picker", selection: $stackItem.backgroundColor)
+                    ColorPicker("BG Color Picker", selection: $stackItem.backgroundColor)
                         .labelsHidden()
+                        .padding(5)
                 }
                 if(canvasModel.selected?.type == "text") {
+                    ColorPicker("Text Color Picker", selection: $stackItem.textColor)
+                        .labelsHidden()
+                        .padding(5)
+                    
                     Button {
-//                        changingText.toggle()
-                        print(stackItem.textBody)
+                        stackItem.textBold.toggle()
                     } label: {
-                        Image(systemName: "textformat")
+                        Image(systemName: "bold")
+                            .padding()
+                            .background(stackItem.textBold ? Color.gray : Color.clear)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
                     }
                 }
                 
@@ -201,6 +211,7 @@ struct CanvasSubView<Content: View>: View {
                 } label: {
                     Image(systemName: "square.2.layers.3d.top.filled")
                 }
+                .padding(5)
                 
                 Button {
                     deleteConfirmation.toggle()
@@ -208,17 +219,14 @@ struct CanvasSubView<Content: View>: View {
                     Image(systemName: "trash")
                         .font(.title3)
                 }
+                .padding(5)
             }
             .foregroundStyle(.white)
-            .padding()
+            .padding(10)
             .background(.ultraThinMaterial)
-            
             .clipShape(RoundedRectangle(cornerRadius: 10))
-            .frame(width: width + 20, height: height + 40, alignment: .bottomTrailing)
             .offset(stackItem.offset)
         }
+        
     }
 }
-
-
-

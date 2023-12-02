@@ -15,7 +15,7 @@ struct StackItem: Identifiable, Equatable {
     var type: String
     
     var image: Image?
-    var rect: Rectangle?
+    var shape: Image?
     var text: Text?
     
     
@@ -41,6 +41,7 @@ struct StackItem: Identifiable, Equatable {
     
     var textBody: String = "Lorem Ipsum"
     
-    var backgroundColor: Color = .red
-    var foreroundColor: Color?
+    var backgroundColor: Color = .black
+    var textColor: Color = .white
+    var textBold: Bool = true
 }

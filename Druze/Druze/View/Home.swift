@@ -13,6 +13,7 @@ struct Home: View {
     @StateObject var canvasModel: CanvasViewModel = .init()
     @State private var deleteConfirmation: Bool = false
     @State private var addingText: Bool = false
+    @State private var addingShape: Bool = false
     
     var body: some View {
         ZStack {
@@ -41,7 +42,7 @@ struct Home: View {
                     }
 
                     Button {
-                        canvasModel.addShapeToStack()
+                        addingShape.toggle()
                     } label: {
                         Image(systemName: "plus")
                             .font(.system(size: 40))
@@ -65,7 +66,9 @@ struct Home: View {
             ImagePicker(showPicker: $canvasModel.showImagePicker, imageData: $canvasModel.imageData)
         }
         .sheet(isPresented: $addingText) {
-            SheetView(canvasModel: canvasModel)
+            TextCreation(canvasModel: canvasModel)
+        }.sheet(isPresented: $addingShape) {
+            ShapeCreation(canvasModel: canvasModel)
         }
         
     }
@@ -75,24 +78,81 @@ struct Home: View {
     Home()
 }
 
-struct SheetView: View {
+struct TextCreation: View {
     @Environment(\.dismiss) var dismiss
     @StateObject var canvasModel: CanvasViewModel
-    @State var text = "Lorem Ipsum"
+    @State var text = ""
+    
+    
     
     var body: some View {
         VStack {
-            TextField("Text Field", text: $text)
-                .padding()
+            Spacer()
+            TextField("Say something fun!", text: $text)
+                .font(.system(size: 30))
+                .padding(20)
                 .background(.thinMaterial)
+                .clipShape(RoundedRectangle(cornerRadius: 20))
+            Spacer()
+            Button("Cancel") {
+                dismiss()
+            }
+            .font(.system(size: 30, weight: .bold))
+            .foregroundStyle(.gray)
+            .padding()
+            .frame(maxWidth: .infinity)
+            .background(.thinMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: 20))
             Button("Save") {
                 canvasModel.addTextToStack(text: text)
                 dismiss()
             }
-            Button("Cancel") {
-                dismiss()
-            }
+            .font(.system(size: 30, weight: .bold))
+            .foregroundStyle(.white)
+            .padding()
+            .frame(maxWidth: .infinity)
+            .background(.green)
+            .clipShape(RoundedRectangle(cornerRadius: 20))
+            
         }
         .padding()
     }
 }
+
+struct ShapeCreation: View {
+    @Environment(\.dismiss) var dismiss
+    @StateObject var canvasModel: CanvasViewModel
+    @State var text = ""
+    
+    let shapeTypes: [String] = ["square", "circle", "triangle", "star", "hexagon", "octagon", "seal", "shield"]
+    
+    private let columns = [
+        GridItem(.flexible(), spacing: 20),
+        GridItem(.flexible(), spacing: 20)
+    ]
+
+    var body: some View {
+        VStack {
+            ScrollView {
+                LazyVGrid(columns: columns, spacing: 20) {
+                    ForEach(shapeTypes, id: \.self) { shape in
+                        Button {
+                            canvasModel.addShapeToStack(type: shape)
+                            dismiss()
+                        } label: {
+                            Image(systemName: "\(shape).fill")
+                                .resizable()
+                                .frame(maxWidth: .infinity)
+                                .aspectRatio(contentMode: .fit)
+                                .foregroundStyle(.black)
+                        }
+                    }
+                }
+                .padding(.horizontal)
+            }
+            
+        }
+        .padding()
+    }
+}
+
