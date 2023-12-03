@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "3A9335322B1121C2006B4916"
-               BuildableName = "Dragging Text.app"
-               BlueprintName = "Dragging Text"
+               BuildableName = "Druze.app"
+               BlueprintName = "Druze"
                ReferencedContainer = "container:Druze.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -44,8 +44,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3A9335322B1121C2006B4916"
-            BuildableName = "Dragging Text.app"
-            BlueprintName = "Dragging Text"
+            BuildableName = "Druze.app"
+            BlueprintName = "Druze"
             ReferencedContainer = "container:Druze.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -61,8 +61,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3A9335322B1121C2006B4916"
-            BuildableName = "Dragging Text.app"
-            BlueprintName = "Dragging Text"
+            BuildableName = "Druze.app"
+            BlueprintName = "Druze"
             ReferencedContainer = "container:Druze.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

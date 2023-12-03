@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Canvas: View {
+struct CustCanvas: View {
     var height: CGFloat = .infinity
     @EnvironmentObject var canvasModel: CanvasViewModel
     
@@ -114,6 +114,10 @@ struct CanvasSubView<Content: View>: View {
                     .padding(20)
                     .frame(width: stackItem.width)
                     .background(stackItem.backgroundColor)
+            } else if let contentP = stackItem.line {
+                Canvas { ctx, size in
+                    ctx.stroke(contentP, with: .color(stackItem.backgroundColor), style: StrokeStyle(lineWidth: 5, lineCap: .round, lineJoin: .round))
+                }
             }
         }
         .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -227,6 +231,5 @@ struct CanvasSubView<Content: View>: View {
             .clipShape(RoundedRectangle(cornerRadius: 10))
             .offset(stackItem.offset)
         }
-        
     }
 }

@@ -46,6 +46,13 @@ class CanvasViewModel: ObservableObject {
         stack.append(StackItem(view: AnyView(textView), type: "text", text: textView))
     }
     
+    func addLineToStack(points: [CGPoint]) {
+        var path = Path()
+        path.addLines(points)
+        
+        stack.append(StackItem(view: AnyView(path), type: "path", line: path))
+    }
+    
     func getActiveIndex() -> Int {
         if let active = selected {
             if let index = stack.firstIndex(of: active) {

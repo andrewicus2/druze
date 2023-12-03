@@ -17,6 +17,7 @@ struct StackItem: Identifiable, Equatable {
     var image: Image?
     var shape: Image?
     var text: Text?
+    var line: Path?
     
     
     // Equatable - Drew

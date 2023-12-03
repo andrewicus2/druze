@@ -8,12 +8,23 @@
 //  src: https://www.youtube.com/watch?v=zvdHmnp8sLA
 
 import SwiftUI
+import _PhotosUI_SwiftUI
+
+struct Line {
+    var points: [CGPoint]
+    var color: Color
+}
 
 struct Home: View {
     @StateObject var canvasModel: CanvasViewModel = .init()
     @State private var deleteConfirmation: Bool = false
     @State private var addingText: Bool = false
     @State private var addingShape: Bool = false
+    @State private var selectedPhoto: PhotosPickerItem?
+    @State private var drawingMode: Bool = false
+    
+    @State private var lines: [Line] = []
+    @State private var selectedColor = Color.orange
     
     var body: some View {
         ZStack {
@@ -21,16 +32,64 @@ struct Home: View {
                 .ignoresSafeArea()
             
             // Canvas display
-            Canvas()
+            CustCanvas()
                 .environmentObject(canvasModel)
                 .ignoresSafeArea()
             
+          
+                Canvas {ctx, size in
+                    for line in lines {
+                        var path = Path()
+                        path.addLines(line.points)
+                        
+                        ctx.stroke(path, with: .color(line.color), style: StrokeStyle(lineWidth: 5, lineCap: .round, lineJoin: .round))
+                    }
+                }
+                .gesture(
+                    drawingMode ?
+                    DragGesture(minimumDistance: 0, coordinateSpace: .local)
+                        .onChanged({ value in
+                            let position = value.location
+                            
+                            if value.translation == .zero {
+                                lines.append(Line(points: [position], color: selectedColor))
+                            } else {
+                                guard let lastIdx = lines.indices.last else {
+                                    return
+                                }
+                                
+                                lines[lastIdx].points.append(position)
+                            }
+                        })
+                    : nil
+                )
+                .allowsHitTesting(drawingMode)
+        
+            
             // Toolbar            
-            HStack {
+            if(drawingMode) {
                 HStack(spacing: 24) {
                     Button {
-                        canvasModel.showImagePicker.toggle()
+                        drawingMode.toggle()
                     } label: {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 40))
+                    }
+                    
+                    ColorPicker("Pen Color Picker", selection: $selectedColor)
+                        .labelsHidden()
+                        
+                }
+                .padding(24)
+                .foregroundStyle(.black)
+                .background(.thinMaterial)
+                .clipShape(RoundedRectangle(cornerRadius: 30))
+                .frame(maxHeight: .infinity, alignment: .bottom)
+                .ignoresSafeArea()
+                .padding(20)
+            } else {
+                HStack(spacing: 24) {
+                    PhotosPicker(selection: $selectedPhoto, matching: .images) {
                         Image(systemName: "photo")
                             .font(.system(size: 40))
                     }
@@ -40,35 +99,46 @@ struct Home: View {
                         Image(systemName: "character.textbox")
                             .font(.system(size: 40))
                     }
-
+                    
                     Button {
                         addingShape.toggle()
                     } label: {
                         Image(systemName: "plus")
                             .font(.system(size: 40))
                     }
+                    Button {
+                        drawingMode.toggle()
+                    } label: {
+                        Image(systemName: "pencil.tip")
+                            .font(.system(size: 40))
+                    }
                 }
+                .padding(24)
+                .foregroundStyle(.black)
+                .background(.thinMaterial)
+                .clipShape(RoundedRectangle(cornerRadius: 30))
+                .frame(maxHeight: .infinity, alignment: .bottom)
+                .ignoresSafeArea()
+                .padding(20)
             }
-            .padding(24)
-            .foregroundStyle(.black)
-            .background(.thinMaterial)
-            .clipShape(RoundedRectangle(cornerRadius: 30))
-            .frame(maxHeight: .infinity, alignment: .bottom)
-            .ignoresSafeArea()
-            .padding(20)
         }
         .alert(canvasModel.errorMessage, isPresented: $canvasModel.showError) {}
-        .sheet(isPresented: $canvasModel.showImagePicker) {
-            if let image = UIImage(data: canvasModel.imageData) {
-                canvasModel.addImageToStack(image: image)
-            }
-        } content: {
-            ImagePicker(showPicker: $canvasModel.showImagePicker, imageData: $canvasModel.imageData)
-        }
         .sheet(isPresented: $addingText) {
             TextCreation(canvasModel: canvasModel)
         }.sheet(isPresented: $addingShape) {
             ShapeCreation(canvasModel: canvasModel)
+        }
+        .onChange(of: selectedPhoto) {
+            Task {
+                if let data = try? await selectedPhoto?.loadTransferable(type: Data.self) {
+                    if let uiImage = UIImage(data: data) {
+                        canvasModel.addImageToStack(image: uiImage)
+                        return
+                    }
+                }
+
+                print("Failed")
+            }
         }
         
     }
@@ -155,4 +225,3 @@ struct ShapeCreation: View {
         .padding()
     }
 }
-
