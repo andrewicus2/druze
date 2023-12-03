@@ -64,8 +64,9 @@ class CanvasViewModel: ObservableObject {
         return 0
     }
     
-    func changeBackground(image: UIImage) {
-        backgroundImage = image
+    func resetCanvas() {
+        stack.removeAll()
+        backgroundImage = UIImage(imageLiteralResourceName: "druze-default")
     }
     
     func deleteActive() {
