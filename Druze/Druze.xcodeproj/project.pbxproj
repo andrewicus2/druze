@@ -8,13 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		3A2EE9092B1BC4FB000A83DD /* Star.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2EE9082B1BC4FB000A83DD /* Star.swift */; };
-		3A2EE9142B1D1988000A83DD /* MPLUSRounded1c-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3A2EE90D2B1D1987000A83DD /* MPLUSRounded1c-ExtraBold.ttf */; };
 		3A2EE9152B1D1988000A83DD /* MPLUSRounded1c-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3A2EE90E2B1D1987000A83DD /* MPLUSRounded1c-Black.ttf */; };
 		3A2EE9162B1D1988000A83DD /* MPLUSRounded1c-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3A2EE90F2B1D1987000A83DD /* MPLUSRounded1c-Regular.ttf */; };
-		3A2EE9172B1D1988000A83DD /* MPLUSRounded1c-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3A2EE9102B1D1987000A83DD /* MPLUSRounded1c-Light.ttf */; };
-		3A2EE9182B1D1988000A83DD /* MPLUSRounded1c-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3A2EE9112B1D1987000A83DD /* MPLUSRounded1c-Thin.ttf */; };
-		3A2EE9192B1D1988000A83DD /* MPLUSRounded1c-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3A2EE9122B1D1987000A83DD /* MPLUSRounded1c-Bold.ttf */; };
 		3A2EE91A2B1D1988000A83DD /* MPLUSRounded1c-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3A2EE9132B1D1988000A83DD /* MPLUSRounded1c-Medium.ttf */; };
+		3A2EE91D2B1D22EB000A83DD /* CanvasSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2EE91C2B1D22EA000A83DD /* CanvasSettings.swift */; };
 		3A9335372B1121C2006B4916 /* Druze.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9335362B1121C2006B4916 /* Druze.swift */; };
 		3A9335392B1121C2006B4916 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9335382B1121C2006B4916 /* ContentView.swift */; };
 		3A93353B2B1121C3006B4916 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A93353A2B1121C3006B4916 /* Assets.xcassets */; };
@@ -27,13 +24,11 @@
 
 /* Begin PBXFileReference section */
 		3A2EE9082B1BC4FB000A83DD /* Star.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Star.swift; sourceTree = "<group>"; };
-		3A2EE90D2B1D1987000A83DD /* MPLUSRounded1c-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MPLUSRounded1c-ExtraBold.ttf"; sourceTree = "<group>"; };
 		3A2EE90E2B1D1987000A83DD /* MPLUSRounded1c-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MPLUSRounded1c-Black.ttf"; sourceTree = "<group>"; };
 		3A2EE90F2B1D1987000A83DD /* MPLUSRounded1c-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MPLUSRounded1c-Regular.ttf"; sourceTree = "<group>"; };
-		3A2EE9102B1D1987000A83DD /* MPLUSRounded1c-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MPLUSRounded1c-Light.ttf"; sourceTree = "<group>"; };
-		3A2EE9112B1D1987000A83DD /* MPLUSRounded1c-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MPLUSRounded1c-Thin.ttf"; sourceTree = "<group>"; };
-		3A2EE9122B1D1987000A83DD /* MPLUSRounded1c-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MPLUSRounded1c-Bold.ttf"; sourceTree = "<group>"; };
 		3A2EE9132B1D1988000A83DD /* MPLUSRounded1c-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MPLUSRounded1c-Medium.ttf"; sourceTree = "<group>"; };
+		3A2EE91B2B1D1A2A000A83DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		3A2EE91C2B1D22EA000A83DD /* CanvasSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasSettings.swift; sourceTree = "<group>"; };
 		3A9335332B1121C2006B4916 /* Druze.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Druze.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A9335362B1121C2006B4916 /* Druze.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Druze.swift; sourceTree = "<group>"; };
 		3A9335382B1121C2006B4916 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -60,12 +55,8 @@
 			isa = PBXGroup;
 			children = (
 				3A2EE90E2B1D1987000A83DD /* MPLUSRounded1c-Black.ttf */,
-				3A2EE9122B1D1987000A83DD /* MPLUSRounded1c-Bold.ttf */,
-				3A2EE90D2B1D1987000A83DD /* MPLUSRounded1c-ExtraBold.ttf */,
-				3A2EE9102B1D1987000A83DD /* MPLUSRounded1c-Light.ttf */,
 				3A2EE9132B1D1988000A83DD /* MPLUSRounded1c-Medium.ttf */,
 				3A2EE90F2B1D1987000A83DD /* MPLUSRounded1c-Regular.ttf */,
-				3A2EE9112B1D1987000A83DD /* MPLUSRounded1c-Thin.ttf */,
 			);
 			path = project_fonts;
 			sourceTree = "<group>";
@@ -89,6 +80,7 @@
 		3A9335352B1121C2006B4916 /* Druze */ = {
 			isa = PBXGroup;
 			children = (
+				3A2EE91B2B1D1A2A000A83DD /* Info.plist */,
 				3A2EE90C2B1D1970000A83DD /* project_fonts */,
 				3A9335462B112568006B4916 /* ViewModel */,
 				3A9335452B11255B006B4916 /* Model */,
@@ -112,6 +104,7 @@
 		3A9335442B112551006B4916 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3A2EE91C2B1D22EA000A83DD /* CanvasSettings.swift */,
 				3A9335472B112574006B4916 /* Home.swift */,
 				3A9335492B11268C006B4916 /* CusCanvas.swift */,
 				3A2EE9082B1BC4FB000A83DD /* Star.swift */,
@@ -193,15 +186,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A2EE9182B1D1988000A83DD /* MPLUSRounded1c-Thin.ttf in Resources */,
 				3A2EE9162B1D1988000A83DD /* MPLUSRounded1c-Regular.ttf in Resources */,
 				3A2EE9152B1D1988000A83DD /* MPLUSRounded1c-Black.ttf in Resources */,
 				3A93353E2B1121C3006B4916 /* Preview Assets.xcassets in Resources */,
 				3A93353B2B1121C3006B4916 /* Assets.xcassets in Resources */,
-				3A2EE9142B1D1988000A83DD /* MPLUSRounded1c-ExtraBold.ttf in Resources */,
 				3A2EE91A2B1D1988000A83DD /* MPLUSRounded1c-Medium.ttf in Resources */,
-				3A2EE9172B1D1988000A83DD /* MPLUSRounded1c-Light.ttf in Resources */,
-				3A2EE9192B1D1988000A83DD /* MPLUSRounded1c-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,6 +205,7 @@
 				3A93354E2B11272F006B4916 /* StackItem.swift in Sources */,
 				3A9335392B1121C2006B4916 /* ContentView.swift in Sources */,
 				3A9335482B112574006B4916 /* Home.swift in Sources */,
+				3A2EE91D2B1D22EB000A83DD /* CanvasSettings.swift in Sources */,
 				3A9335372B1121C2006B4916 /* Druze.swift in Sources */,
 				3A93354A2B11268C006B4916 /* CusCanvas.swift in Sources */,
 				3A2EE9092B1BC4FB000A83DD /* Star.swift in Sources */,
@@ -355,6 +345,7 @@
 				DEVELOPMENT_TEAM = 3M744A37XM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Druze/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Druze;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -385,6 +376,7 @@
 				DEVELOPMENT_TEAM = 3M744A37XM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Druze/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Druze;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

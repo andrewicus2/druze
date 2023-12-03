@@ -16,10 +16,13 @@ struct CustCanvas: View {
             let size = proxy.size
             
             ZStack {
-                Color.white
+                Image(uiImage: canvasModel.backgroundImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
                     .onTapGesture(count: 1) {
                         canvasModel.selected = nil
-                    }
+                }
+                
                 
                 ForEach($canvasModel.stack) { $stackItem in
                     CanvasSubView(stackItem: $stackItem, selectedItem: canvasModel.selected ?? nil) {
@@ -106,10 +109,9 @@ struct CanvasSubView<Content: View>: View {
                     .frame(width: stackItem.width)
             } else if let contentT = stackItem.text {
                 contentT
-                    .font(.system(size: 500))
-                    .minimumScaleFactor(0.01)
                     .lineLimit(1)
-                    .fontWeight(stackItem.textBold ? .bold : .regular)
+                    .font(.custom(stackItem.textBold ? "RoundedMplus1c-Black" : "RoundedMplus1c-Regular", size: 500))
+                    .minimumScaleFactor(0.01)
                     .foregroundStyle(stackItem.textColor)
                     .padding(20)
                     .frame(width: stackItem.width)

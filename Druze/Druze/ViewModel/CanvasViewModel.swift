@@ -22,6 +22,8 @@ class CanvasViewModel: ObservableObject {
     @Published var showError: Bool = false
     @Published var errorMessage: String = ""
     
+    @Published var backgroundImage: UIImage = UIImage(imageLiteralResourceName: "druze-default")
+    
     // Adding Image to Stack
     func addImageToStack(image: UIImage) {
         // Creating SwiftUI Image View and Appending into stack
@@ -60,6 +62,10 @@ class CanvasViewModel: ObservableObject {
             }
         }
         return 0
+    }
+    
+    func changeBackground(image: UIImage) {
+        backgroundImage = image
     }
     
     func deleteActive() {
