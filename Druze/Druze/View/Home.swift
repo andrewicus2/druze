@@ -13,6 +13,7 @@ import PhotosUI
 struct Line {
     var points: [CGPoint]
     var color: Color
+    var thickness: CGFloat
 }
 
 struct Home: View {
@@ -26,8 +27,9 @@ struct Home: View {
     
     @State var canvasName: String = "My Canvas"
     
-    @State private var lines: [Line] = []
+    @State var lines: [Line] = []
     @State private var selectedColor = Color.orange
+    @State private var selectedThickness: CGFloat = 5
     
     var body: some View {
         ZStack {
@@ -45,7 +47,7 @@ struct Home: View {
                     var path = Path()
                     path.addLines(line.points)
                     
-                    ctx.stroke(path, with: .color(line.color), style: StrokeStyle(lineWidth: 5, lineCap: .round, lineJoin: .round))
+                    ctx.stroke(path, with: .color(line.color), style: StrokeStyle(lineWidth: line.thickness, lineCap: .round, lineJoin: .round))
                 }
             }
             .gesture(
@@ -55,7 +57,7 @@ struct Home: View {
                         let position = value.location
                         
                         if value.translation == .zero {
-                            lines.append(Line(points: [position], color: selectedColor))
+                            lines.append(Line(points: [position], color: selectedColor, thickness: selectedThickness))
                         } else {
                             guard let lastIdx = lines.indices.last else {
                                 return
@@ -71,19 +73,51 @@ struct Home: View {
             
             // Toolbar
             if(drawingMode) {
-                HStack(spacing: 24) {
+                HStack(spacing: 10) {
                     Button {
                         drawingMode.toggle()
                     } label: {
                         Image(systemName: "chevron.left")
-                            .font(.system(size: 40))
+                            .font(.system(size: 35))
                     }
+                    
+                    Button {
+                        selectedThickness = 5
+                    } label: {
+                        Image(systemName: "scribble")
+                            .font(.system(size: 35, weight: .ultraLight))
+                            .padding(4)
+                    }
+                    .background(selectedThickness == 5 ? Color("druze-light-gray") : Color.clear)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+
+                    Button {
+                        selectedThickness = 15
+                    } label: {
+                        Image(systemName: "scribble")
+                            .font(.system(size: 35, weight: .regular))
+                            .padding(4)
+                    }
+                    .background(selectedThickness == 15 ? Color("druze-light-gray") : Color.clear)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    
+                    Button {
+                        selectedThickness = 30
+                    } label: {
+                        Image(systemName: "scribble")
+                            .font(.system(size: 35, weight: .black))
+                            .padding(4)
+                    }
+                    .background(selectedThickness == 30 ? Color("druze-light-gray") : Color.clear)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
                     
                     ColorPicker("Pen Color Picker", selection: $selectedColor)
                         .labelsHidden()
-                    
+                        .scaleEffect(1.3)
                 }
-                .padding(24)
+                .padding(20)
+                .padding(.leading, 4)
+                .padding(.trailing, 4)
                 .foregroundStyle(.black)
                 .background(.thinMaterial)
                 .clipShape(RoundedRectangle(cornerRadius: 30))
@@ -94,28 +128,25 @@ struct Home: View {
                 HStack(spacing: 24) {
                     PhotosPicker(selection: $selectedPhoto, matching: .images) {
                         Image(systemName: "photo")
-                            .font(.system(size: 40, weight: .medium))
                     }
                     Button {
                         addingText.toggle()
                     } label: {
                         Image(systemName: "character.textbox")
-                            .font(.system(size: 40, weight: .medium))
                     }
                     
                     Button {
                         addingShape.toggle()
                     } label: {
                         Image(systemName: "plus")
-                            .font(.system(size: 40, weight: .medium))
                     }
                     Button {
                         drawingMode.toggle()
                     } label: {
                         Image(systemName: "pencil.tip")
-                            .font(.system(size: 40, weight: .medium))
                     }
                 }
+                .font(.system(size: 35, weight: .regular))
                 .padding(24)
                 .foregroundStyle(.black)
                 .background(.thinMaterial)
@@ -124,10 +155,7 @@ struct Home: View {
                 .ignoresSafeArea()
                 .padding(20)
             }
-            
-            
-            
-            
+                        
             
             
             // Title
@@ -160,7 +188,7 @@ struct Home: View {
         }.sheet(isPresented: $addingShape) {
             ShapeCreation(canvasModel: canvasModel)
         }.sheet(isPresented: $canvasSettingsShown) {
-            CanvasSettings(canvasModel: canvasModel, canvasName: $canvasName)
+            CanvasSettings(canvasModel: canvasModel, canvasName: $canvasName, lines: $lines)
         }
         .onChange(of: selectedPhoto) {
             Task {

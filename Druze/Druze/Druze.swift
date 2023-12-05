@@ -6,12 +6,18 @@
 //
 
 import SwiftUI
+import Firebase
 
 @main
 struct Druze: App {
-    var body: some Scene {
+
+    init() {
+        FirebaseApp.configure()
+    }
+    
+      var body: some Scene {
         WindowGroup {
             ContentView()
         }
-    }
+      }
 }

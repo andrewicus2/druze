@@ -9,6 +9,9 @@ import SwiftUI
 
 
 // Holds each Stack Item View
+
+// Does not conform to Codable??
+
 struct StackItem: Identifiable, Equatable {
     var id = UUID().uuidString
     var view: AnyView
@@ -17,7 +20,7 @@ struct StackItem: Identifiable, Equatable {
     var image: Image?
     var shape: Image?
     var text: Text?
-    var line: Path?
+//    var line: Path?
     
     
     // Equatable - Drew
@@ -27,7 +30,7 @@ struct StackItem: Identifiable, Equatable {
     
     // Gesture Properties
     
-    var offset: CGSize = .zero
+    var offset: CGSize = .zero // extension to make it codable
     var lastOffset: CGSize = .zero
     var scale: CGFloat = 1
     var lastScale: CGFloat = 1

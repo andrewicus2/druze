@@ -5,12 +5,30 @@
 //  Created by drew on 11/24/23.
 //
 
+/// TODO:
+///  Make stack items Codable
+///  Reading and writing to Json
+///  Use environment object
+
+
 import SwiftUI
 
 // Holds all canvas data
 class CanvasViewModel: ObservableObject {
     // Canvas Stack
     @Published var stack: [StackItem] = []
+    
+    //    @Published var stack = [StackItem]() {
+    //        didSet {
+    //            if let encoded = try? JSONEncoder().encode(stack) {
+    //                UserDefaults.standard.set(encoded, forKey: "Stack")
+    //            }
+    //        }
+    //    }
+    //
+    //    init() {
+    //
+    //    }
     
     @Published var selected: StackItem?
     
@@ -48,12 +66,12 @@ class CanvasViewModel: ObservableObject {
         stack.append(StackItem(view: AnyView(textView), type: "text", text: textView))
     }
     
-    func addLineToStack(points: [CGPoint]) {
-        var path = Path()
-        path.addLines(points)
-        
-        stack.append(StackItem(view: AnyView(path), type: "path", line: path))
-    }
+//    func addLineToStack(points: [CGPoint]) {
+//        var path = Path()
+//        path.addLines(points)
+//        
+//        stack.append(StackItem(view: AnyView(path), type: "path", line: path))
+//    }
     
     func getActiveIndex() -> Int {
         if let active = selected {

@@ -18,10 +18,11 @@ struct CustCanvas: View {
             ZStack {
                 Image(uiImage: canvasModel.backgroundImage)
                     .resizable()
-                    .aspectRatio(contentMode: .fill)
+                    .scaledToFill()
+                    .frame(maxWidth: UIScreen.main.bounds.width, maxHeight: UIScreen.main.bounds.height)
                     .onTapGesture(count: 1) {
                         canvasModel.selected = nil
-                }
+                    }
                 
                 
                 ForEach($canvasModel.stack) { $stackItem in
@@ -107,6 +108,7 @@ struct CanvasSubView<Content: View>: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: stackItem.width)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
             } else if let contentT = stackItem.text {
                 contentT
                     .lineLimit(1)
@@ -116,13 +118,10 @@ struct CanvasSubView<Content: View>: View {
                     .padding(20)
                     .frame(width: stackItem.width)
                     .background(stackItem.backgroundColor)
-            } else if let contentP = stackItem.line {
-                Canvas { ctx, size in
-                    ctx.stroke(contentP, with: .color(stackItem.backgroundColor), style: StrokeStyle(lineWidth: 5, lineCap: .round, lineJoin: .round))
-                }
+                    .clipShape(RoundedRectangle(cornerRadius: 25))
+                
             }
         }
-        .clipShape(RoundedRectangle(cornerRadius: 10))
         .overlay( /// apply a rounded border https://stackoverflow.com/questions/71744888/swiftui-view-with-rounded-corners-and-border
             RoundedRectangle(cornerRadius: 10)
                 .stroke(.thinMaterial, lineWidth: stackItem == selectedItem ? 5 : 0)
@@ -142,6 +141,14 @@ struct CanvasSubView<Content: View>: View {
             selected()
         }
         .gesture(
+            DragGesture()
+                .onChanged({ value in
+                    stackItem.offset = CGSize(width: stackItem.lastOffset.width + value.translation.width, height: stackItem.lastOffset.height + value.translation.height)
+                }).onEnded({ value in
+                    stackItem.lastOffset = stackItem.offset
+                })
+        )
+        .gesture(
             MagnifyGesture()
                 .onChanged({ value in
                     stackItem.scale = stackItem.lastScale + (value.magnification - 1)
@@ -159,14 +166,7 @@ struct CanvasSubView<Content: View>: View {
                         stackItem.lastRotation = stackItem.rotation
                     })
                 )
-                .simultaneously(with: DragGesture()
-                    .onChanged({ value in
-                        stackItem.offset = CGSize(width: stackItem.lastOffset.width + value.translation.width, height: stackItem.lastOffset.height + value.translation.height)
-                    }).onEnded({ value in
-                        stackItem.lastOffset = stackItem.offset
-                    })
-                ))
-        
+        )
         .background(
             GeometryReader { geo in
                 Color.clear

@@ -14,7 +14,8 @@ struct CanvasSettings: View {
     @StateObject var canvasModel: CanvasViewModel
     @Binding var canvasName: String
     @State private var bgPhoto: PhotosPickerItem?
-    
+    @Binding var lines: [Line]
+
     var body: some View {
         VStack {
             Text("Settings")
@@ -44,6 +45,7 @@ struct CanvasSettings: View {
                         ZStack {
                             Image(uiImage: canvasModel.backgroundImage)
                                 .resizable()
+                                .scaledToFill()
                                 .frame(maxWidth: .infinity, maxHeight: 300)
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                             PhotosPicker(selection: $bgPhoto, matching: .images) {
@@ -115,7 +117,8 @@ struct CanvasSettings: View {
             }
         }
         .alert("Are you sure you want to reset your canvas?", isPresented: $resetConfirmation) {
-            Button("Delete", role: .destructive) {
+            Button("Reset", role: .destructive) {
+                lines.removeAll()
                 canvasModel.resetCanvas()
                 dismiss()
             }
