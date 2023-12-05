@@ -17,7 +17,7 @@ struct Line {
 }
 
 struct Home: View {
-    @StateObject var canvasModel: CanvasViewModel = CanvasViewModel.init()
+    @StateObject var canvasModel: CanvasViewModel = CanvasViewModel()
     @State private var deleteConfirmation: Bool = false
     @State private var addingText: Bool = false
     @State private var addingShape: Bool = false
@@ -182,7 +182,7 @@ struct Home: View {
             .padding(20)
         }
         
-        .alert(canvasModel.errorMessage, isPresented: $canvasModel.showError) {}
+//        .alert(canvasModel.errorMessage, isPresented: $canvasModel.showError) {}
         .sheet(isPresented: $addingText) {
             TextCreation(canvasModel: canvasModel)
         }.sheet(isPresented: $addingShape) {
@@ -193,10 +193,8 @@ struct Home: View {
         .onChange(of: selectedPhoto) {
             Task {
                 if let data = try? await selectedPhoto?.loadTransferable(type: Data.self) {
-                    if let uiImage = UIImage(data: data) {
-                        canvasModel.addImageToStack(image: uiImage)
-                        return
-                    }
+                    canvasModel.addImageToStack(image: data)
+                    return
                 }
                 
                 print("Failed")

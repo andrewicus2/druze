@@ -12,16 +12,25 @@ import SwiftUI
 
 // Does not conform to Codable??
 
-struct StackItem: Identifiable, Equatable {
+struct StackItem: Identifiable, Equatable, Codable {
     var id = UUID().uuidString
-    var view: AnyView
+//    var view: AnyView
     var type: String
     
-    var image: Image?
-    var shape: Image?
-    var text: Text?
-//    var line: Path?
+
     
+    var image: Data?
+    var shape: String?
+    var text: String?
+    
+    var imageView: Image {
+        if let imgData = image {
+            if let uiImg = UIImage(data: imgData) {
+                return Image(uiImage: uiImg)
+            }
+        }
+        return Image(systemName: "x")
+    }
     
     // Equatable - Drew
     static func ==(st1: StackItem, st2: StackItem) -> Bool {
@@ -32,20 +41,20 @@ struct StackItem: Identifiable, Equatable {
     
     var offset: CGSize = .zero // extension to make it codable
     var lastOffset: CGSize = .zero
-    var scale: CGFloat = 1
-    var lastScale: CGFloat = 1
-    var rotation: Angle = .zero
-    var lastRotation: Angle = .zero
+    var scale: Double = 1
+    var lastScale: Double = 1
+    var rotation: Double = 0
+    var lastRotation: Double = 0
         
-    var width: CGFloat = 200
-    var lastWidth: CGFloat = 200
+    var width: Double = 200
+    var lastWidth: Double = 200
     
-    var height: CGFloat = 200
-    var lastHeight: CGFloat = 200
+    var height: Double = 200
+    var lastHeight: Double = 200
     
     var textBody: String = "Lorem Ipsum"
     
-    var backgroundColor: Color = .black
-    var textColor: Color = .white
+    var backgroundColor: String = "black"
+    var textColor: String = "white"
     var textBold: Bool = true
 }

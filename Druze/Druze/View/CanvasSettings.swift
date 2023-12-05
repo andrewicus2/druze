@@ -119,7 +119,7 @@ struct CanvasSettings: View {
         .alert("Are you sure you want to reset your canvas?", isPresented: $resetConfirmation) {
             Button("Reset", role: .destructive) {
                 lines.removeAll()
-                canvasModel.resetCanvas()
+//                canvasModel.resetCanvas()
                 dismiss()
             }
             Button("Cancel", role: .cancel) {
