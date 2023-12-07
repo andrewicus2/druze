@@ -38,11 +38,12 @@ struct CustCanvas: View {
                             //                    .foregroundStyle(stackItem.backgroundColor)
                                 .frame(width: stackItem.width)
                         } else if(stackItem.image != nil) {
-                            stackItem.imageView
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: stackItem.width)
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                            stackItem
+//                            stackItem.imageView
+//                                .resizable()
+//                                .aspectRatio(contentMode: .fit)
+//                                .frame(width: stackItem.width)
+//                                .clipShape(RoundedRectangle(cornerRadius: 10))
                         } else if let text = stackItem.text {
                             Text(text)
                                 .lineLimit(1)
@@ -113,7 +114,7 @@ struct CustCanvas: View {
                     )
                     .rotationEffect(Angle(degrees: stackItem.rotation))
                     .scaleEffect(stackItem.hapticScale)
-                    .scaleEffect(1)
+                    .scaleEffect(stackItem.scale)
                     .offset(stackItem.offset)
                     .onLongPressGesture(minimumDuration: 0.3) {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
@@ -143,12 +144,13 @@ struct CustCanvas: View {
                         MagnifyGesture()
                             .onChanged({ value in
                                 stackItem.scale = stackItem.lastScale + (value.magnification - 1)
-                                stackItem.width = stackItem.lastWidth * stackItem.scale
-                                stackItem.height = stackItem.lastHeight * stackItem.scale
+//                                stackItem.width = stackItem.lastWidth * stackItem.scale
+//                                stackItem.height = stackItem.lastHeight * stackItem.scale
                             })
                             .onEnded({ value in
-                                stackItem.lastWidth = stackItem.width
-                                stackItem.lastHeight = stackItem.height
+//                                stackItem.lastWidth = stackItem.width
+//                                stackItem.lastHeight = stackItem.height
+                                stackItem.lastScale = stackItem.scale
                                 canvasModel.updateItem(item: stackItem)
                             })
                             .simultaneously(with: RotationGesture()

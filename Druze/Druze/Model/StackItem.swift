@@ -12,7 +12,7 @@ import SwiftUI
 
 // Does not conform to Codable??
 
-struct StackItem: Identifiable, Equatable, Codable {
+struct StackItem: Identifiable, Equatable, Codable, View {
     var id = UUID().uuidString
 //    var view: AnyView
     var type: String
@@ -23,8 +23,44 @@ struct StackItem: Identifiable, Equatable, Codable {
     var text: String?
     
     
+    
     var body: some View {
-        
+        ZStack {
+            if let contentI = image {
+                if let uiImage = UIImage(data: contentI) {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                    //                        .foregroundStyle(stackItem.backgroundColor)
+                    //                        .frame(width: stackItem.width)
+                } 
+//                            } else if let contentI = stackItem.image {
+//                                contentI
+//                                    .resizable()
+//                                    .aspectRatio(contentMode: .fit)
+//                                    .frame(width: stackItem.width)
+//                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+//                            } else if let contentT = stackItem.text {
+//                                contentT
+//                                    .lineLimit(1)
+//                                    .font(.custom(stackItem.textBold ? "RoundedMplus1c-Black" : "RoundedMplus1c-Regular", size: 500))
+//                                    .minimumScaleFactor(0.01)
+//                                    .foregroundStyle(stackItem.textColor)
+//                                    .padding(20)
+//                                    .frame(width: stackItem.width)
+//                                    .background(stackItem.backgroundColor)
+//                                    .clipShape(RoundedRectangle(cornerRadius: 25))
+//                
+//                            }
+            } 
+//            else if let contentT = text {
+//                Text(text)
+//                    .lineLimit(1)
+//                    .font(.custom(stackItem.textBold ? "RoundedMplus1c-Black" : "RoundedMplus1c-Regular", size: 500))
+//
+//            }
+            
+        }
     }
     
     // Equatable - Drew
