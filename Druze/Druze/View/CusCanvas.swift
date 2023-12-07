@@ -11,28 +11,31 @@ struct CustCanvas: View {
     var height: CGFloat = .infinity
     @EnvironmentObject var canvasModel: CanvasViewModel
     
+    @State private var deleteConfirmation: Bool = false
+    
     var body: some View {
         GeometryReader { proxy in
             let size = proxy.size
             
             ZStack {
-//                Image(uiImage: canvasRenModel.backgroundImage)
-//                    .resizable()
-//                    .scaledToFill()
-//                    .frame(maxWidth: UIScreen.main.bounds.width, maxHeight: UIScreen.main.bounds.height)
-//                    .onTapGesture(count: 1) {
-////                        canvasModel.selected = nil
-//                    }
+                
+                Image("druze-default")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(maxWidth: UIScreen.main.bounds.width, maxHeight: UIScreen.main.bounds.height)
+                    .onTapGesture(count: 1) {
+                        canvasModel.selected = nil
+                    }
                 
                 
-                ForEach($canvasModel.canvasModel.stack) { $stackItem in
-                    
+                
+                ForEach($canvasModel.canvasBaseModel.stack) { $stackItem in
                     ZStack {
                         if let shape = stackItem.shape {
                             Image(systemName: "\(shape).fill")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-            //                    .foregroundStyle(stackItem.backgroundColor)
+                            //                    .foregroundStyle(stackItem.backgroundColor)
                                 .frame(width: stackItem.width)
                         } else if(stackItem.image != nil) {
                             stackItem.imageView
@@ -45,31 +48,86 @@ struct CustCanvas: View {
                                 .lineLimit(1)
                                 .font(.custom(stackItem.textBold ? "RoundedMplus1c-Black" : "RoundedMplus1c-Regular", size: 500))
                                 .minimumScaleFactor(0.01)
-            //                    .foregroundStyle(stackItem.textColor)
+                            //                    .foregroundStyle(stackItem.textColor)
                                 .padding(20)
                                 .frame(width: stackItem.width)
-            //                    .background(stackItem.backgroundColor)
+                            //                    .background(stackItem.backgroundColor)
                                 .clipShape(RoundedRectangle(cornerRadius: 25))
                             
                         }
+                        
+                        if(canvasModel.selected == stackItem) {
+                            HStack {
+                                if(canvasModel.selected?.type != "img") {
+//                                    ColorPicker("BG Color Picker", selection: $stackItem.backgroundColor)
+//                                        .labelsHidden()
+//                                        .padding(5)
+                                }
+                                if(canvasModel.selected?.type == "text") {
+//                                    ColorPicker("Text Color Picker", selection: $stackItem.textColor)
+//                                        .labelsHidden()
+//                                        .padding(5)
+                                    
+                                    Button {
+                                        stackItem.textBold.toggle()
+                                    } label: {
+                                        Image(systemName: "bold")
+                                            .padding()
+                                            .background(stackItem.textBold ? Color.gray : Color.clear)
+                                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    }
+                                }
+                                
+                                Button {
+                                    canvasModel.moveToFront(item: stackItem)
+                                    canvasModel.saveModel()
+                                } label: {
+                                    Image(systemName: "square.2.layers.3d.top.filled")
+                                }
+                                .padding(5)
+                                
+                                Button {
+                                    deleteConfirmation.toggle()
+                                } label: {
+                                    Image(systemName: "trash")
+                                        .font(.title3)
+                                }
+                                .padding(5)
+                            }
+                            .alert("Are you sure you want to delete this?", isPresented: $deleteConfirmation) {
+                                Button("Delete", role: .destructive) {
+                                    canvasModel.deleteItem(item: stackItem)
+                                    canvasModel.saveModel()
+                                }
+                                Button("Cancel", role: .cancel) { }
+                            }
+                            .foregroundStyle(.white)
+                            .padding(10)
+                            .background(.ultraThinMaterial)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                        }
                     }
-//                    .overlay( /// apply a rounded border https://stackoverflow.com/questions/71744888/swiftui-view-with-rounded-corners-and-border
-//                        RoundedRectangle(cornerRadius: 10)
-//                            .stroke(.thinMaterial, lineWidth: stackItem == selectedItem ? 5 : 0)
-//                    )
+                    .overlay( /// apply a rounded border https://stackoverflow.com/questions/71744888/swiftui-view-with-rounded-corners-and-border
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(.thinMaterial, lineWidth: stackItem == canvasModel.selected ? 5 : 0)
+                    )
                     .rotationEffect(Angle(degrees: stackItem.rotation))
-//                    .scaleEffect(hapticScale)
+                    .scaleEffect(stackItem.hapticScale)
                     .scaleEffect(1)
                     .offset(stackItem.offset)
                     .onLongPressGesture(minimumDuration: 0.3) {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         withAnimation(.easeInOut){
-//                            hapticScale = 1.2
+                            stackItem.hapticScale = 1.2
                         }
                         withAnimation(.easeInOut.delay(0.05)) {
-//                            hapticScale = 1
+                            stackItem.hapticScale = 1
                         }
-//                        selected()
+                        if(stackItem == canvasModel.selected) {
+                            return
+                        } else {
+                            canvasModel.selected = stackItem
+                        }
                     }
                     .gesture(
                         
@@ -102,19 +160,6 @@ struct CustCanvas: View {
                                 })
                             )
                     )
-//                    .alert("Are you sure you want to delete this?", isPresented: $deleteConfirmation) {
-//                        Button("Delete", role: .destructive) { deleteItem() }
-//                        Button("Cancel", role: .cancel) { }
-//                    }
-//                    CanvasSubView(stackItem: $stackItem, selectedItem: canvasModel.selected ?? nil) {
-//                        
-//                    } selected: {
-//                        selected(stackItem: stackItem)
-//                    } deleteItem: {
-//                        deleteItem(stackItem: stackItem)
-//                    } moveToFront: {
-//                        moveToFront(stackItem: stackItem)
-//                    }
                 }
             }
             .frame(width: size.width, height: size.height)
@@ -122,28 +167,6 @@ struct CustCanvas: View {
         .frame(maxHeight: height)
         .clipped()
     }
-    
-//    func selected(stackItem: StackItem) {
-//        if(stackItem == canvasModel.selected) {
-//            return
-//        } else {
-//            canvasModel.selected = stackItem
-//        }
-//    }
-//    
-//    func getIndex(stackItem: StackItem) -> Int {
-//        return canvasModel.stack.firstIndex { item in
-//            return item.id == stackItem.id
-//        } ?? 0
-//    }
-//    
-//    func deleteItem(stackItem: StackItem) {
-//        canvasModel.stack.remove(at: getIndex(stackItem: stackItem))
-//    }
-//    
-//    func moveToFront(stackItem: StackItem) {
-//        canvasModel.stack.append(canvasModel.stack.remove(at: getIndex(stackItem: stackItem)))
-//    }
 }
 
 #Preview {
@@ -275,48 +298,5 @@ struct CanvasSubView<Content: View>: View {
         
         /// UI ON SELECTION
         ///  CANNOT FIGURE OUT HOW TO ALIGN THIS TO THE BOTTOM OF THE VIEW
-//        if(canvasModel.selected == stackItem) {
-//            HStack {
-//                if(canvasModel.selected?.type != "img") {
-//                    ColorPicker("BG Color Picker", selection: $stackItem.backgroundColor)
-//                        .labelsHidden()
-//                        .padding(5)
-//                }
-//                if(canvasModel.selected?.type == "text") {
-//                    ColorPicker("Text Color Picker", selection: $stackItem.textColor)
-//                        .labelsHidden()
-//                        .padding(5)
-//                    
-//                    Button {
-//                        stackItem.textBold.toggle()
-//                    } label: {
-//                        Image(systemName: "bold")
-//                            .padding()
-//                            .background(stackItem.textBold ? Color.gray : Color.clear)
-//                            .clipShape(RoundedRectangle(cornerRadius: 10))
-//                    }
-//                }
-//                
-//                Button {
-//                    moveToFront()
-//                } label: {
-//                    Image(systemName: "square.2.layers.3d.top.filled")
-//                }
-//                .padding(5)
-//                
-//                Button {
-//                    deleteConfirmation.toggle()
-//                } label: {
-//                    Image(systemName: "trash")
-//                        .font(.title3)
-//                }
-//                .padding(5)
-//            }
-//            .foregroundStyle(.white)
-//            .padding(10)
-//            .background(.ultraThinMaterial)
-//            .clipShape(RoundedRectangle(cornerRadius: 10))
-//            .offset(stackItem.offset)
-//        }
     }
 }

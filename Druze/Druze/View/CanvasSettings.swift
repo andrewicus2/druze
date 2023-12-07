@@ -43,7 +43,7 @@ struct CanvasSettings: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                         
                         ZStack {
-                            Image(uiImage: canvasModel.backgroundImage)
+                            Image(uiImage: canvasModel.backgroundImage!)
                                 .resizable()
                                 .scaledToFill()
                                 .frame(maxWidth: .infinity, maxHeight: 300)

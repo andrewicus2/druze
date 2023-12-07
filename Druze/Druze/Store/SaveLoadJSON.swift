@@ -14,7 +14,7 @@ import Foundation
 //
 func saveJSON<T: Encodable>(fileName: String, val: T) throws {
     let filePath = try documentPath(fileName: fileName);
-    print("saveJSON filePath \(filePath as Any)")
+//    print("saveJSON filePath \(filePath as Any)")
     
     let encoder = JSONEncoder()
     encoder.outputFormatting = .prettyPrinted
@@ -39,7 +39,7 @@ func loadJSON<T :Decodable>(_ type: T.Type, fileName: String) throws -> T {
         print("loadJSON NO file at filePath \(filePath as Any)")
         throw FileError.missing;
     }
-    print("loadJSON filePath \(filePath as Any)")
+//    print("loadJSON filePath \(filePath as Any)")
     
     let jsonData = try String(contentsOfFile: filePath.path).data(using: .utf8)
     
@@ -60,7 +60,7 @@ func remove(fileName: String) {
         try FileManager.default.removeItem(at: filePath)
     } catch {
         // fatalError("Model init error \(error)")
-        print("remove fileName error \(error)")
+//        print("remove fileName error \(error)")
     }
 }
 

@@ -18,18 +18,13 @@ struct StackItem: Identifiable, Equatable, Codable {
     var type: String
     
 
-    
     var image: Data?
     var shape: String?
     var text: String?
     
-    var imageView: Image {
-        if let imgData = image {
-            if let uiImg = UIImage(data: imgData) {
-                return Image(uiImage: uiImg)
-            }
-        }
-        return Image(systemName: "x")
+    
+    var body: some View {
+        
     }
     
     // Equatable - Drew
@@ -57,4 +52,7 @@ struct StackItem: Identifiable, Equatable, Codable {
     var backgroundColor: String = "black"
     var textColor: String = "white"
     var textBold: Bool = true
+    
+    var hapticScale: Double = 1
+
 }

@@ -16,27 +16,36 @@ import SwiftUI
 // Holds all canvas data
 class CanvasViewModel: ObservableObject {
     // Canvas Stack
-    @Published var canvasModel: CanvasBaseModel
+    @Published var canvasBaseModel: CanvasBaseModel
     
     let saveFileName = "canvas.json"
+    
+    @Published var selected: StackItem?
     
     init() {
         print("Model Init")
         
-        canvasModel = CanvasBaseModel(JSONfileName: saveFileName)
+        canvasBaseModel = CanvasBaseModel(JSONfileName: saveFileName)
+        
+        
+//        backgroundImage = UIImage()
+//        if let bgImage = UIImage(data: canvasBaseModel.backgroundImage) {
+//            backgroundImage = bgImage
+//        }
+        
     }
     
     // Errors
     @Published var showError: Bool = false
     @Published var errorMessage: String = ""
     
-    @Published var backgroundImage: UIImage = UIImage(imageLiteralResourceName: "druze-default")
+    @Published var backgroundImage: UIImage?
     
     // Adding Image to Stack
     func addImageToStack(image: Data) {
         // Creating SwiftUI Image View and Appending into stack
         
-        canvasModel.addItem(newItem: StackItem(type: "img", image: image))
+        canvasBaseModel.addItem(newItem: StackItem(type: "img", image: image))
     }
     
     // Drew's Code
@@ -44,23 +53,33 @@ class CanvasViewModel: ObservableObject {
     func addShapeToStack(type: String) {
 //        let shape = Image(systemName: "\(type).fill")
         
-        canvasModel.addItem(newItem: StackItem(type: "shape", shape: type))
+        canvasBaseModel.addItem(newItem: StackItem(type: "shape", shape: type))
     }
     
     func addTextToStack(text: String) {
         
-        canvasModel.addItem(newItem:StackItem(type: "text", text: text))
+        canvasBaseModel.addItem(newItem:StackItem(type: "text", text: text))
     }
     
     func updateItem(item: StackItem) {
-        canvasModel.updateItem(item: item)
+        canvasBaseModel.updateItem(item: item)
         saveModel()
     }
     
     func saveModel() {
-        print("Document saveModel")
-        canvasModel.saveAsJSON(fileName: saveFileName)
+//        print("Document saveBaseModel")
+        canvasBaseModel.saveAsJSON(fileName: saveFileName)
     }
+    
+    func deleteItem(item: StackItem) {
+        canvasBaseModel.deleteItem(stackItem: item)
+    }
+    
+    func moveToFront(item: StackItem) {
+        canvasBaseModel.moveToFront(stackItem: item)
+    }
+    
+    
     
 //    func addLineToStack(points: [CGPoint]) {
 //        var path = Path()
