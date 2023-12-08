@@ -6,20 +6,41 @@
 import SwiftUI
 
 extension CanvasBaseModel {
-    
     func saveAsJSON(fileName: String) {
         do {
             try saveJSON(fileName: fileName, val: self);
         }
         catch {
-            fatalError("Model saveAsJSON error \(error)")
+            fatalError("Canvas saveAsJSON error \(error)")
+        }
+    }
+    
+    init(JSONfileName fileName: String, inName: String) {
+        stack = []
+        name = inName
+        do {
+            self = try loadJSON(CanvasBaseModel.self, fileName: fileName)
+        } catch {
+            // fatalError("Model init error \(error)")
+            print("Canvas init JSONfileName error \(error)")
+        }
+    }
+}
+
+extension CanvasCollection {
+    func saveAsJSON(fileName: String) {
+        do {
+            try saveJSON(fileName: fileName, val: self);
+        }
+        catch {
+            fatalError("Collection saveAsJSON error \(error)")
         }
     }
     
     init(JSONfileName fileName: String) {
-        stack = []
+        canvasGroup = []
         do {
-            self = try loadJSON(CanvasBaseModel.self, fileName: fileName)
+            self = try loadJSON(CanvasCollection.self, fileName: fileName)
         } catch {
             // fatalError("Model init error \(error)")
             print("Model init JSONfileName error \(error)")

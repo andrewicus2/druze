@@ -16,6 +16,8 @@
 		3A6F122F2B1FD99A00CD5D07 /* SaveLoadJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6F122E2B1FD99A00CD5D07 /* SaveLoadJSON.swift */; };
 		3A6F12312B1FD9F700CD5D07 /* CanvasBaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6F12302B1FD9F700CD5D07 /* CanvasBaseModel.swift */; };
 		3A6F12332B21892D00CD5D07 /* StackItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6F12322B21892D00CD5D07 /* StackItemView.swift */; };
+		3A6F12352B2247E500CD5D07 /* CanvasCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6F12342B2247E500CD5D07 /* CanvasCollection.swift */; };
+		3A6F12372B22497B00CD5D07 /* CanvasCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6F12362B22497B00CD5D07 /* CanvasCollectionViewModel.swift */; };
 		3A9335372B1121C2006B4916 /* Druze.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9335362B1121C2006B4916 /* Druze.swift */; };
 		3A9335392B1121C2006B4916 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9335382B1121C2006B4916 /* ContentView.swift */; };
 		3A93353B2B1121C3006B4916 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A93353A2B1121C3006B4916 /* Assets.xcassets */; };
@@ -37,6 +39,8 @@
 		3A6F122E2B1FD99A00CD5D07 /* SaveLoadJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveLoadJSON.swift; sourceTree = "<group>"; };
 		3A6F12302B1FD9F700CD5D07 /* CanvasBaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasBaseModel.swift; sourceTree = "<group>"; };
 		3A6F12322B21892D00CD5D07 /* StackItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackItemView.swift; sourceTree = "<group>"; };
+		3A6F12342B2247E500CD5D07 /* CanvasCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasCollection.swift; sourceTree = "<group>"; };
+		3A6F12362B22497B00CD5D07 /* CanvasCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasCollectionViewModel.swift; sourceTree = "<group>"; };
 		3A9335332B1121C2006B4916 /* Druze.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Druze.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A9335362B1121C2006B4916 /* Druze.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Druze.swift; sourceTree = "<group>"; };
 		3A9335382B1121C2006B4916 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -144,6 +148,8 @@
 			children = (
 				3A93354B2B112697006B4916 /* CanvasViewModel.swift */,
 				3A6F12302B1FD9F700CD5D07 /* CanvasBaseModel.swift */,
+				3A6F12342B2247E500CD5D07 /* CanvasCollection.swift */,
+				3A6F12362B22497B00CD5D07 /* CanvasCollectionViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -227,6 +233,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A6F12312B1FD9F700CD5D07 /* CanvasBaseModel.swift in Sources */,
+				3A6F12352B2247E500CD5D07 /* CanvasCollection.swift in Sources */,
 				3A93354C2B112697006B4916 /* CanvasViewModel.swift in Sources */,
 				3A93354E2B11272F006B4916 /* StackItem.swift in Sources */,
 				3A9335392B1121C2006B4916 /* ContentView.swift in Sources */,
@@ -235,6 +242,7 @@
 				3A2EE91D2B1D22EB000A83DD /* CanvasSettings.swift in Sources */,
 				3A6F122D2B1FD95D00CD5D07 /* ModelJSON.swift in Sources */,
 				3A6F12332B21892D00CD5D07 /* StackItemView.swift in Sources */,
+				3A6F12372B22497B00CD5D07 /* CanvasCollectionViewModel.swift in Sources */,
 				3A9335372B1121C2006B4916 /* Druze.swift in Sources */,
 				3A93354A2B11268C006B4916 /* CusCanvas.swift in Sources */,
 			);

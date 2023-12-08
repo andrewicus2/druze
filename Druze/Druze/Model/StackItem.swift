@@ -12,7 +12,7 @@ import SwiftUI
 
 // Does not conform to Codable??
 
-struct StackItem: Identifiable, Equatable, Codable, View {
+struct StackItem: Identifiable, Equatable, Codable {
     var id = UUID().uuidString
 //    var view: AnyView
     var type: String
@@ -21,47 +21,6 @@ struct StackItem: Identifiable, Equatable, Codable, View {
     var image: Data?
     var shape: String?
     var text: String?
-    
-    
-    
-    var body: some View {
-        ZStack {
-            if let contentI = image {
-                if let uiImage = UIImage(data: contentI) {
-                    Image(uiImage: uiImage)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                    //                        .foregroundStyle(stackItem.backgroundColor)
-                    //                        .frame(width: stackItem.width)
-                } 
-//                            } else if let contentI = stackItem.image {
-//                                contentI
-//                                    .resizable()
-//                                    .aspectRatio(contentMode: .fit)
-//                                    .frame(width: stackItem.width)
-//                                    .clipShape(RoundedRectangle(cornerRadius: 10))
-//                            } else if let contentT = stackItem.text {
-//                                contentT
-//                                    .lineLimit(1)
-//                                    .font(.custom(stackItem.textBold ? "RoundedMplus1c-Black" : "RoundedMplus1c-Regular", size: 500))
-//                                    .minimumScaleFactor(0.01)
-//                                    .foregroundStyle(stackItem.textColor)
-//                                    .padding(20)
-//                                    .frame(width: stackItem.width)
-//                                    .background(stackItem.backgroundColor)
-//                                    .clipShape(RoundedRectangle(cornerRadius: 25))
-//                
-//                            }
-            } 
-//            else if let contentT = text {
-//                Text(text)
-//                    .lineLimit(1)
-//                    .font(.custom(stackItem.textBold ? "RoundedMplus1c-Black" : "RoundedMplus1c-Regular", size: 500))
-//
-//            }
-            
-        }
-    }
     
     // Equatable - Drew
     static func ==(st1: StackItem, st2: StackItem) -> Bool {
@@ -85,10 +44,34 @@ struct StackItem: Identifiable, Equatable, Codable, View {
     
     var textBody: String = "Lorem Ipsum"
     
-    var backgroundColor: String = "black"
-    var textColor: String = "white"
+    var bgR:CGFloat = 1.0
+    var bgG:CGFloat = 0
+    var bgB:CGFloat = 0
+    var bgA:Double = 1.0
+    
+    var backgroundColor:Color {
+        return colorFromRGB(r: bgR, g: bgG, b: bgB, a: bgA)
+    }
+    
+    var txtR:CGFloat = 0
+    var txtG:CGFloat = 1.0
+    var txtB:CGFloat = 0
+    var txtA:Double = 1.0
+    
+    var textColor:Color {
+        return colorFromRGB(r: txtR, g: txtG, b: txtB, a: txtA)
+    }
+    
     var textBold: Bool = true
     
     var hapticScale: Double = 1
 
+    func colorFromRGB(r: CGFloat, g: CGFloat, b:CGFloat, a:CGFloat) -> Color {
+        return Color(red: r, green: g, blue: b, opacity: a)
+    }
+    
+    
+    func updateBGColor(color: Color) {
+        
+    }
 }

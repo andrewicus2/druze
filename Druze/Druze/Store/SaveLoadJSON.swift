@@ -14,13 +14,13 @@ import Foundation
 //
 func saveJSON<T: Encodable>(fileName: String, val: T) throws {
     let filePath = try documentPath(fileName: fileName);
-//    print("saveJSON filePath \(filePath as Any)")
+    print("saveJSON filePath \(filePath as Any)")
     
     let encoder = JSONEncoder()
     encoder.outputFormatting = .prettyPrinted
     
     let jsonData = try encoder.encode(val)
-    // print("Model saveAsJSON jsonData \(String(describing: jsonData))")
+     print("Model saveAsJSON jsonData \(String(describing: jsonData))")
     
     let str = String(data: jsonData, encoding: .utf8)!
     // print("Model saveAsJSON encode str \(str)")

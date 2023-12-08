@@ -18,47 +18,77 @@ class CanvasViewModel: ObservableObject {
     // Canvas Stack
     @Published var canvasBaseModel: CanvasBaseModel
     
-    let saveFileName = "canvas.json"
+    let saveFileName: String
     
     @Published var selected: StackItem?
     
-    init() {
+    @Published var viewStack: [String : StackItemView]
+    
+    @Published var backgroundImage: UIImage
+    
+    
+    init(inFileName: String) {
         print("Model Init")
         
-        canvasBaseModel = CanvasBaseModel(JSONfileName: saveFileName)
+        saveFileName = "\(inFileName).json"
         
+        canvasBaseModel = CanvasBaseModel(JSONfileName: saveFileName, inName: inFileName)
+        backgroundImage = UIImage(imageLiteralResourceName: "druze-default")
+        viewStack = [:]
         
-//        backgroundImage = UIImage()
-//        if let bgImage = UIImage(data: canvasBaseModel.backgroundImage) {
-//            backgroundImage = bgImage
-//        }
-        
+        if !canvasBaseModel.stack.isEmpty {
+            for stackItem in canvasBaseModel.stack {
+                if let imageData = stackItem.image {
+                    if let imageView = UIImage(data: imageData) {
+                        viewStack[stackItem.id] = StackItemView(imageView: Image(uiImage: imageView))
+                    }
+                } else if let shapeData = stackItem.shape {
+                    viewStack[stackItem.id] = StackItemView(shapeView: Image(systemName: "\(shapeData).fill"))
+                } else if let textData = stackItem.text {
+                    viewStack[stackItem.id] = StackItemView(textView: Text(textData))
+                }
+            }
+        }
+                
+        if let bgImage = canvasBaseModel.backgroundImage {
+            if let uiBG = UIImage(data: bgImage) {
+                backgroundImage = uiBG
+            }
+        }
     }
     
     // Errors
     @Published var showError: Bool = false
     @Published var errorMessage: String = ""
     
-    @Published var backgroundImage: UIImage?
     
     // Adding Image to Stack
     func addImageToStack(image: Data) {
         // Creating SwiftUI Image View and Appending into stack
+        let addedItem = StackItem(type: "img", image: image)
         
-        canvasBaseModel.addItem(newItem: StackItem(type: "img", image: image))
+        canvasBaseModel.addItem(newItem: addedItem)
+        if let imageView = UIImage(data: image) {
+            viewStack[addedItem.id] = StackItemView(imageView: Image(uiImage: imageView))
+        }
     }
     
     // Drew's Code
     
     func addShapeToStack(type: String) {
-//        let shape = Image(systemName: "\(type).fill")
+        let addedItem = StackItem(type: "shape", shape: type)
+
         
-        canvasBaseModel.addItem(newItem: StackItem(type: "shape", shape: type))
+        canvasBaseModel.addItem(newItem: addedItem)
+        viewStack[addedItem.id] = StackItemView(shapeView: Image(systemName: "\(type).fill"))
     }
     
     func addTextToStack(text: String) {
         
-        canvasBaseModel.addItem(newItem:StackItem(type: "text", text: text))
+        let addedItem = StackItem(type: "text", text: text)
+        
+        canvasBaseModel.addItem(newItem: addedItem)
+        viewStack[addedItem.id] = StackItemView(textView: Text(text))
     }
     
     func updateItem(item: StackItem) {
@@ -67,17 +97,24 @@ class CanvasViewModel: ObservableObject {
     }
     
     func saveModel() {
-//        print("Document saveBaseModel")
         canvasBaseModel.saveAsJSON(fileName: saveFileName)
     }
     
     func deleteItem(item: StackItem) {
         canvasBaseModel.deleteItem(stackItem: item)
+        viewStack.removeValue(forKey: item.id)
     }
     
     func moveToFront(item: StackItem) {
         canvasBaseModel.moveToFront(stackItem: item)
     }
+    
+    func changeBGImage(image: UIImage, data: Data) {
+        backgroundImage = image
+        canvasBaseModel.backgroundImage = data
+        saveModel()
+    }
+  
     
     
     

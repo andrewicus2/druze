@@ -9,25 +9,14 @@ import Foundation
 import SwiftUI
 
 
-struct CanvasBaseModel: Codable {
+struct CanvasBaseModel: Codable, Equatable, Identifiable {
     var stack: [StackItem]
     
-//    var backgroundImage: Data
+    var id = UUID().uuidString
     
-    init() {
-        stack = [];
-        
-//        backgroundImage = Data()
-//
-//        if let image = UIImage(named: "druze-default") {
-//            print(image)
-//            if let data = image.pngData() {
-//                print("hi")
-//                backgroundImage = data
-//            }
-//        }
-
-    }
+    var backgroundImage: Data?
+    
+    var name: String
     
     mutating func addItem(newItem: StackItem) {
         stack.append(newItem)

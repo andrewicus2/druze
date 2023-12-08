@@ -43,7 +43,7 @@ struct CanvasSettings: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                         
                         ZStack {
-                            Image(uiImage: canvasModel.backgroundImage!)
+                            Image(uiImage: canvasModel.backgroundImage)
                                 .resizable()
                                 .scaledToFill()
                                 .frame(maxWidth: .infinity, maxHeight: 300)
@@ -107,11 +107,14 @@ struct CanvasSettings: View {
         .onChange(of: bgPhoto) {
             Task {
                 if let data = try? await bgPhoto?.loadTransferable(type: Data.self) {
-                    if let uiImage = UIImage(data: data) {
-                        canvasModel.backgroundImage = uiImage
-                        return
+                    if let image = UIImage(data: data) {
+                        if let compData = image.jpegData(compressionQuality: 0.1) {
+                            canvasModel.changeBGImage(image: image, data: compData)
+                        }
                     }
+                    return
                 }
+                print("Failed")
                 
                 print("Failed")
             }
@@ -128,6 +131,6 @@ struct CanvasSettings: View {
     }
 }
 
-#Preview {
-    Home()
-}
+//#Preview {
+//    Home()
+//}
