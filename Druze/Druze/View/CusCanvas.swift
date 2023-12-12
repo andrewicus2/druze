@@ -125,6 +125,7 @@ struct CustCanvas: View {
                                                     stackItem.bgA = rgbValues[3]
                                                 }
                                             }
+                                            canvasModel.updateItem(item: stackItem)
                                         }
                                 }
                                     
@@ -141,6 +142,7 @@ struct CustCanvas: View {
                                                 stackItem.txtA = rgbValues[3]
                                             }
                                         }
+                                        canvasModel.updateItem(item: stackItem)
                                     }
                                 }
                                 

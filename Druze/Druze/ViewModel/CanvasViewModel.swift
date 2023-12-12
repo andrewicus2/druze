@@ -18,7 +18,7 @@ class CanvasViewModel: ObservableObject {
     // Canvas Stack
     @Published var canvasBaseModel: CanvasBaseModel
     
-    let fileName = "canvs-new-json.json"
+    var fileName: String
     
     @Published var selected: StackItem?
     
@@ -27,8 +27,10 @@ class CanvasViewModel: ObservableObject {
     @Published var backgroundImage: UIImage
     
     
-    init() {
+    init(inFileName: String) {
         print("Model Init")
+        
+        fileName = inFileName
                 
         canvasBaseModel = CanvasBaseModel(JSONfileName: fileName)
         backgroundImage = UIImage(imageLiteralResourceName: "druze-default")
@@ -79,6 +81,7 @@ class CanvasViewModel: ObservableObject {
         
         canvasBaseModel.addItem(newItem: addedItem)
         viewStack[addedItem.id] = StackItemView(shapeView: Image(systemName: "\(type).fill"))
+        saveModel()
     }
     
     func addTextToStack(text: String) {
@@ -87,6 +90,7 @@ class CanvasViewModel: ObservableObject {
         
         canvasBaseModel.addItem(newItem: addedItem)
         viewStack[addedItem.id] = StackItemView(textView: Text(text))
+        saveModel()
     }
     
     func updateItem(item: StackItem) {
@@ -101,10 +105,12 @@ class CanvasViewModel: ObservableObject {
     func deleteItem(item: StackItem) {
         canvasBaseModel.deleteItem(stackItem: item)
         viewStack.removeValue(forKey: item.id)
+        saveModel()
     }
     
     func moveToFront(item: StackItem) {
         canvasBaseModel.moveToFront(stackItem: item)
+        saveModel()
     }
     
     func changeBGImage(image: UIImage, data: Data) {
