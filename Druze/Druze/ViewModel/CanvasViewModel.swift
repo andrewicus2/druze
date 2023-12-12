@@ -18,7 +18,7 @@ class CanvasViewModel: ObservableObject {
     // Canvas Stack
     @Published var canvasBaseModel: CanvasBaseModel
     
-    let saveFileName: String
+    let fileName = "canvs-new-json.json"
     
     @Published var selected: StackItem?
     
@@ -27,12 +27,10 @@ class CanvasViewModel: ObservableObject {
     @Published var backgroundImage: UIImage
     
     
-    init(inFileName: String) {
+    init() {
         print("Model Init")
-        
-        saveFileName = "\(inFileName).json"
-        
-        canvasBaseModel = CanvasBaseModel(JSONfileName: saveFileName, inName: inFileName)
+                
+        canvasBaseModel = CanvasBaseModel(JSONfileName: fileName)
         backgroundImage = UIImage(imageLiteralResourceName: "druze-default")
         viewStack = [:]
         
@@ -97,7 +95,7 @@ class CanvasViewModel: ObservableObject {
     }
     
     func saveModel() {
-        canvasBaseModel.saveAsJSON(fileName: saveFileName)
+        canvasBaseModel.saveAsJSON(fileName: fileName)
     }
     
     func deleteItem(item: StackItem) {

@@ -17,7 +17,7 @@ struct Line {
 }
 
 struct Home: View {
-    @StateObject var canvasModel: CanvasViewModel
+    @StateObject var canvasModel: CanvasViewModel = CanvasViewModel()
     @State private var deleteConfirmation: Bool = false
     @State private var addingText: Bool = false
     @State private var addingShape: Bool = false

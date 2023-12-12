@@ -15,9 +15,8 @@ extension CanvasBaseModel {
         }
     }
     
-    init(JSONfileName fileName: String, inName: String) {
+    init(JSONfileName fileName: String) {
         stack = []
-        name = inName
         do {
             self = try loadJSON(CanvasBaseModel.self, fileName: fileName)
         } catch {

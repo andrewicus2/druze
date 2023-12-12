@@ -15,9 +15,7 @@ struct CanvasBaseModel: Codable, Equatable, Identifiable {
     var id = UUID().uuidString
     
     var backgroundImage: Data?
-    
-    var name: String
-    
+        
     mutating func addItem(newItem: StackItem) {
         stack.append(newItem)
     }
