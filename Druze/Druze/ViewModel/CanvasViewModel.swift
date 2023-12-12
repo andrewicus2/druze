@@ -17,24 +17,18 @@ import SwiftUI
 class CanvasViewModel: ObservableObject {
     // Canvas Stack
     @Published var canvasBaseModel: CanvasBaseModel
-    
-    let saveFileName: String
-    
+        
     @Published var selected: StackItem?
     
     @Published var viewStack: [String : StackItemView]
     
     @Published var backgroundImage: UIImage
-    
-    
-    init(inFileName: String) {
-        print("Model Init")
         
-        saveFileName = "\(inFileName).json"
-        
-        canvasBaseModel = CanvasBaseModel(JSONfileName: saveFileName, inName: inFileName)
+    init() {
+                
         backgroundImage = UIImage(imageLiteralResourceName: "druze-default")
         viewStack = [:]
+        canvasBaseModel = CanvasBaseModel()
         
         if !canvasBaseModel.stack.isEmpty {
             for stackItem in canvasBaseModel.stack {
@@ -81,6 +75,7 @@ class CanvasViewModel: ObservableObject {
         
         canvasBaseModel.addItem(newItem: addedItem)
         viewStack[addedItem.id] = StackItemView(shapeView: Image(systemName: "\(type).fill"))
+        saveModel()
     }
     
     func addTextToStack(text: String) {
@@ -89,6 +84,7 @@ class CanvasViewModel: ObservableObject {
         
         canvasBaseModel.addItem(newItem: addedItem)
         viewStack[addedItem.id] = StackItemView(textView: Text(text))
+        saveModel()
     }
     
     func updateItem(item: StackItem) {
@@ -97,7 +93,7 @@ class CanvasViewModel: ObservableObject {
     }
     
     func saveModel() {
-        canvasBaseModel.saveAsJSON(fileName: saveFileName)
+        canvasBaseModel.saveAsJSON(fileName: "CanvasSavingJSONTesting.json")
     }
     
     func deleteItem(item: StackItem) {
@@ -114,45 +110,4 @@ class CanvasViewModel: ObservableObject {
         canvasBaseModel.backgroundImage = data
         saveModel()
     }
-  
-    
-    
-    
-//    func addLineToStack(points: [CGPoint]) {
-//        var path = Path()
-//        path.addLines(points)
-//        
-//        stack.append(StackItem(view: AnyView(path), type: "path", line: path))
-//    }
-    
-//    func getActiveIndex() -> Int {
-//        if let active = selected {
-//            if let index = stack.firstIndex(of: active) {
-//                return index
-//            }
-//        }
-//        return 0
-//    }
-    
-//    func resetCanvas() {
-//        stack.removeAll()
-//        backgroundImage = UIImage(imageLiteralResourceName: "druze-default")
-//    }
-//    
-//    func deleteActive() {
-//        stack.remove(at: getActiveIndex())
-//        selected = nil
-//    }
-//    
-//    func moveActiveToFront() {
-//        stack.append(stack.remove(at: getActiveIndex()))
-//    }
-//    
-//    func moveActiveToBack() {
-//        stack.insert(stack.remove(at: getActiveIndex()), at: 0)
-//    }
-    
-//    func changeActiveColor(color: Color) {
-//        selected?.backgroundColor = color
-//    }
 }

@@ -17,7 +17,7 @@ struct Line {
 }
 
 struct Home: View {
-    @StateObject var canvasModel: CanvasViewModel
+    @StateObject var canvasModel: CanvasViewModel = CanvasViewModel()
     @State private var deleteConfirmation: Bool = false
     @State private var addingText: Bool = false
     @State private var addingShape: Bool = false
@@ -37,6 +37,7 @@ struct Home: View {
                 .ignoresSafeArea()
             
             // Canvas display
+            let _ = print(canvasModel.canvasBaseModel)
             CustCanvas()
                 .environmentObject(canvasModel)
                 .ignoresSafeArea()
@@ -164,7 +165,7 @@ struct Home: View {
                     canvasSettingsShown.toggle()
                 } label: {
                     HStack {
-                        Text(canvasName)
+                        Text("My Canvas")
                             .font(.custom("RoundedMplus1c-Black", size: 30))
                         
                         Image(systemName: "chevron.down")

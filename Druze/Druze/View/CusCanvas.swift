@@ -183,6 +183,6 @@ struct CustCanvas: View {
     }
 }
 
-//#Preview {
-//    Home()
-//}
+#Preview {
+    Home()
+}

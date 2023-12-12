@@ -16,7 +16,12 @@ struct CanvasBaseModel: Codable, Equatable, Identifiable {
     
     var backgroundImage: Data?
     
-    var name: String
+    var saveName = "CanvasJSONTesting.json"
+    
+    
+    init () {
+        stack = []
+    }
     
     mutating func addItem(newItem: StackItem) {
         stack.append(newItem)
