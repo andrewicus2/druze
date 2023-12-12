@@ -37,7 +37,7 @@ extension CanvasCollection {
     }
     
     init(JSONfileName fileName: String) {
-        canvasGroup = []
+        group = []
         do {
             self = try loadJSON(CanvasCollection.self, fileName: fileName)
         } catch {

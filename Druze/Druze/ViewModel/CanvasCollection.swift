@@ -10,24 +10,24 @@ import SwiftUI
 
 
 struct CanvasCollection: Codable {
-    var canvasGroup: [CanvasBaseModel]
+    var group: [CanvasBaseModel]
         
     init() {
-        canvasGroup = [];
+        group = [];
     }
     
     mutating func addItem(newCanvas: CanvasBaseModel) {
-        canvasGroup.append(newCanvas)
+        group.append(newCanvas)
     }
     
     mutating func updateItem(canvas: CanvasBaseModel) {
         if let index = getIndex(canvas: canvas) {
-            canvasGroup[index] = canvas
+            group[index] = canvas
         }
     }
     
     func getIndex(canvas: CanvasBaseModel) -> Int? {
-        return canvasGroup.firstIndex { item in
+        return group.firstIndex { item in
             return item == canvas
         }
     }
@@ -35,7 +35,7 @@ struct CanvasCollection: Codable {
     
     mutating func deleteItem(canvas: CanvasBaseModel) {
         if let index = getIndex(canvas: canvas) {
-            canvasGroup.remove(at: index)
+            group.remove(at: index)
         }
     }
 }

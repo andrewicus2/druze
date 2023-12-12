@@ -11,7 +11,7 @@ import SwiftUI
 struct Druze: App {
     var body: some Scene {
         WindowGroup {
-            Home()
+            ContentView()
         }
     }
 }

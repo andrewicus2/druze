@@ -17,7 +17,7 @@ struct Line {
 }
 
 struct Home: View {
-    @StateObject var canvasModel: CanvasViewModel = CanvasViewModel(inFileName: "cnvas-json-testing.json")
+    @StateObject var canvasModel: CanvasViewModel
     @State private var deleteConfirmation: Bool = false
     @State private var addingText: Bool = false
     @State private var addingShape: Bool = false
