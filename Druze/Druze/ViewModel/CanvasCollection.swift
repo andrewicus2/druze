@@ -1,41 +1,51 @@
 //
-//  CanvasBaseModel.swift
+//  CanvasCollection.swift
 //  Druze
 //
-//  Created by drew on 12/5/23.
+//  Created by drew on 12/12/23.
 //
 
 import Foundation
-import SwiftUI
 
+struct CanvasInfo: Hashable {
+    var id: String
+    var name: String
+}
 
-struct CanvasCollection: Codable {
-    var group: [CanvasBaseModel]
-        
+class CanvasCollection: Identifiable, ObservableObject {
+    @Published var collection: [CanvasInfo]
+    
+    var id = UUID().uuidString
+    
     init() {
-        group = [];
-    }
-    
-    mutating func addItem(newCanvas: CanvasBaseModel) {
-        group.append(newCanvas)
-    }
-    
-    mutating func updateItem(canvas: CanvasBaseModel) {
-        if let index = getIndex(canvas: canvas) {
-            group[index] = canvas
-        }
-    }
-    
-    func getIndex(canvas: CanvasBaseModel) -> Int? {
-        return group.firstIndex { item in
-            return item == canvas
-        }
+        collection = []
     }
 
-    
-    mutating func deleteItem(canvas: CanvasBaseModel) {
-        if let index = getIndex(canvas: canvas) {
-            group.remove(at: index)
-        }
+    func addItem(canvasID: String, canvasName: String) {
+        collection.append(CanvasInfo(id: canvasID, name: canvasName))
     }
+    
+//    mutating func updateItem(item: StackItem) {
+//        if let index = getIndex(stackItem: item) {
+//            stack[index] = item
+//        }
+//    }
+    
+//    func getIndex(stackItem: StackItem) -> Int? {
+//        return stack.firstIndex { item in
+//            return item == stackItem
+//        }
+//    }
+    
+//    mutating func deleteItem(stackItem: StackItem) {
+//        if let index = getIndex(stackItem: stackItem) {
+//            stack.remove(at: index)
+//        }
+//    }
+    
+//    mutating func moveToFront(stackItem: StackItem) {
+//        if let index = getIndex(stackItem: stackItem) {
+//            stack.append(stack.remove(at: index))
+//        }
+//    }
 }

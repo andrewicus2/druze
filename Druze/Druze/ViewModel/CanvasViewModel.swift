@@ -27,12 +27,12 @@ class CanvasViewModel: ObservableObject {
     @Published var backgroundImage: UIImage
     
     
-    init(inFileName: String) {
+    init(inFileName: String, inCanvasName: String) {
         print("Model Init")
         
         fileName = inFileName
                 
-        canvasBaseModel = CanvasBaseModel(JSONfileName: fileName)
+        canvasBaseModel = CanvasBaseModel(JSONfileName: fileName, inCanvasName: inCanvasName)
         backgroundImage = UIImage(imageLiteralResourceName: "druze-default")
         viewStack = [:]
         

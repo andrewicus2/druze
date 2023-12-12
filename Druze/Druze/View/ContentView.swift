@@ -8,20 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var canvasCollectionModel: CanvasCollectionViewModel = CanvasCollectionViewModel()
     @State private var deleteConfirmation: Bool = false
     @State private var addingCanvas: Bool = false
-    
-    @State private var canvasStack: [String] = []
-    
-    @State var canvasName: String = "My Canvas"
+        
+    @StateObject var canvasCollection: CanvasCollection = CanvasCollection()
     
     var body: some View {
         NavigationStack {
             VStack {
                 Button() {
-//                    addingCanvas.toggle()
-                    canvasStack.append("\(UUID().uuidString).json")
+                    addingCanvas.toggle()
                 } label: {
                     VStack {
                         Image(systemName: "plus")
@@ -29,17 +25,18 @@ struct ContentView: View {
                     }
                 }
             } 
-            NavigationLink("Canvas") {
-                Home(canvasModel: CanvasViewModel(inFileName: "cnvas-json-testing.json"))
+            NavigationLink("Default Canvas") {
+//                Home(canvasModel: CanvasViewModel(inFileName: "cnvas-json-testing.json"))
             }
-            ForEach(canvasStack, id: \.self) { canvasID in
-                NavigationLink(canvasID) {
-                    Home(canvasModel: CanvasViewModel(inFileName: canvasID))
+
+            ForEach(canvasCollection.collection, id: \.self) { canvasInfo in
+                NavigationLink(canvasInfo.name) {
+                    Home(canvasModel: CanvasViewModel(inFileName: canvasInfo.id, inCanvasName: canvasInfo.name))
                 }
             }
         }
         .sheet(isPresented: $addingCanvas) {
-            CanvasCreation(canvasCollectionModel: canvasCollectionModel)
+            CanvasCreation(canvasCollection: $canvasCollection.collection)
         }
     }
 }
@@ -50,7 +47,7 @@ struct ContentView: View {
 
 struct CanvasCreation: View {
     @Environment(\.dismiss) var dismiss
-    @StateObject var canvasCollectionModel: CanvasCollectionViewModel
+    @Binding var canvasCollection: [CanvasInfo]
     @State var text = ""
     
     var body: some View {
@@ -84,8 +81,7 @@ struct CanvasCreation: View {
             
             
             Button() {
-//                canvasCollectionModel.addCanvas(canvas: CanvasBaseModel(JSONfileName: "\(text).json", inName: text))
-                
+                canvasCollection.append(CanvasInfo(id: "\(UUID().uuidString).json", name: text))
                 dismiss()
             } label: {
                 Text("Save")
