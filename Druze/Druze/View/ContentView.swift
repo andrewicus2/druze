@@ -26,39 +26,66 @@ struct ContentView: View {
 
     var body: some View {
         NavigationStack {
-            
-            VStack {
-                HStack {
-                    Button {
-                        addingCanvas.toggle()
-                    } label: {
-                        HStack {
-                            Image("bloom-icon")
-                                .resizable()
-                                .frame(width: 50, height: 50)
-                            Text("Druze")
-                                .font(.custom("RoundedMplus1c-Black", size: 30))
-                            Spacer()
-                            Image(systemName: "plus")
-                                .font(.system(size: 20, weight: .bold))
-                        }
-                    }
-                    .foregroundStyle(.black)
-                    .clipShape(RoundedRectangle(cornerRadius: 30))
-                }
+            ZStack {
+                Image("bloom-logo-pattern")
+                    .resizable(resizingMode: .tile)
+                    .opacity(0.05)
+                    .ignoresSafeArea()
                 
-                ScrollView {
-                    LazyVGrid(columns: columns, spacing: 10) {
-                        ForEach(canvasCollection.canvasCollection.collection, id: \.self) { canvasInfo in
-                            NavigationLink(destination: Home(canvasModel: CanvasViewModel(inFileName: canvasInfo.id, inCanvasName: canvasInfo.name)) ) {
-                                ButtonView(name: canvasInfo.name)
-                                    .frame(maxWidth: .infinity)
+                VStack {
+                    HStack {
+                        Button {
+                            addingCanvas.toggle()
+                        } label: {
+                            HStack {
+                                Image("bloom-icon")
+                                    .resizable()
+                                    .frame(width: 50, height: 50)
+                                Text("Druze")
+                                    .font(.custom("RoundedMplus1c-Black", size: 30))
+                                Spacer()
+                                Image(systemName: "plus")
+                                    .font(.system(size: 20, weight: .bold))
+                            }
+                        }
+                        .foregroundStyle(.black)
+                        .clipShape(RoundedRectangle(cornerRadius: 30))
+                    }
+                    
+                    if(canvasCollection.canvasCollection.collection.isEmpty) {
+                        Spacer()
+                        VStack{
+                            Image(systemName: "hand.point.up")
+                                .font(.system(size: 35, weight: .bold))
+                                .rotationEffect(Angle(degrees: 37))
+                                .padding()
+                            HStack {
+                                Text("Tap")
+                                    .font(.custom("RoundedMplus1c-Black", size: 30))
+                                Image(systemName: "plus")
+                                    .font(.system(size: 30, weight: .bold))
+                            }
+                            Text("to create your first bloom!")
+                                .font(.custom("RoundedMplus1c-Black", size: 30))
+                                .multilineTextAlignment(.center)
+                        }
+                        Spacer()
+                    } else {
+                        ScrollView {
+                            LazyVGrid(columns: columns, spacing: 10) {
+                                ForEach(canvasCollection.canvasCollection.collection, id: \.self) { canvasInfo in
+                                    NavigationLink(destination: Home(canvasModel: CanvasViewModel(inFileName: canvasInfo.id, inCanvasName: canvasInfo.name)) ) {
+                                        ButtonView(name: canvasInfo.name)
+                                            .frame(maxWidth: .infinity)
+                                    }
+                                }
                             }
                         }
                     }
                 }
+                .padding()
+
             }
-            .padding()
             
             
             
@@ -107,11 +134,12 @@ struct CanvasCreation: View {
         VStack {
             Text("Give your Bloom a Name!")
                 .font(.custom("RoundedMplus1c-Black", size: 30))
+                .multilineTextAlignment(.center)
                 .padding(20)
             
             Spacer()
             
-            TextField("Say something fun!", text: $text)
+            TextField("My first Bloom!", text: $text)
                 .font(.custom("RoundedMplus1c-Black", size: 30))
                 .padding(20)
                 .background(.thinMaterial)
