@@ -288,9 +288,9 @@ struct TextCreation: View {
                     .frame(maxWidth: .infinity)
             }
             .font(.custom("RoundedMplus1c-Black", size: 30))
-            .foregroundStyle(.white)
+            .foregroundStyle(.black)
             .frame(maxWidth: .infinity)
-            .background(.green)
+            .background(Color("druze-green"))
             .clipShape(RoundedRectangle(cornerRadius: 20))
             .disabled(text.isEmpty ? true : false)
             .opacity(text.isEmpty ? 0.5 : 1)
@@ -304,9 +304,10 @@ struct ShapeCreation: View {
     @StateObject var canvasModel: CanvasViewModel
     @State var text = ""
     
-    let shapeTypes: [String] = ["square", "circle", "triangle", "star", "hexagon", "octagon", "seal", "shield"]
+    let shapeTypes: [String] = ["heart", "star", "staroflife", "bubble", "balloon", "pin", "square", "circle", "triangle", "hexagon", "octagon", "seal", "shield"]
     
     private let columns = [
+        GridItem(.flexible(), spacing: 20),
         GridItem(.flexible(), spacing: 20),
         GridItem(.flexible(), spacing: 20)
     ]
@@ -326,8 +327,8 @@ struct ShapeCreation: View {
                         } label: {
                             Image(systemName: "\(shape).fill")
                                 .resizable()
-                                .frame(maxWidth: .infinity)
                                 .aspectRatio(contentMode: .fit)
+                                .frame(height: 200)
                                 .foregroundStyle(.black)
                         }
                     }
@@ -338,4 +339,9 @@ struct ShapeCreation: View {
         }
         .padding()
     }
+}
+
+
+#Preview {
+    Home(canvasModel: CanvasViewModel(inFileName: "testing", inCanvasName: "testing.json"))
 }

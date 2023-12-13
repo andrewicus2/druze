@@ -44,18 +44,18 @@ struct StackItem: Identifiable, Equatable, Codable {
     
     var textBody: String = "Lorem Ipsum"
     
-    var bgR:CGFloat = 1.0
-    var bgG:CGFloat = 0
-    var bgB:CGFloat = 0
+    var bgR:CGFloat = 0.976
+    var bgG:CGFloat = 0.322
+    var bgB:CGFloat = 0.016
     var bgA:Double = 1.0
     
     var backgroundColor:Color {
         return colorFromRGB(r: bgR, g: bgG, b: bgB, a: bgA)
     }
     
-    var txtR:CGFloat = 0
+    var txtR:CGFloat = 1.0
     var txtG:CGFloat = 1.0
-    var txtB:CGFloat = 0
+    var txtB:CGFloat = 1.0
     var txtA:Double = 1.0
     
     var textColor:Color {

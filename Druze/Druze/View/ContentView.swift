@@ -16,6 +16,7 @@ import SwiftUI
 struct ContentView: View {
     @State private var deleteConfirmation: Bool = false
     @State private var addingCanvas: Bool = false
+    @State private var showingInfo: Bool = false
         
     @StateObject var canvasCollection: CanvasCollectionModel = CanvasCollectionModel()
     
@@ -27,7 +28,7 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Image("bloom-logo-pattern")
+                Image("angled-blooom-tile")
                     .resizable(resizingMode: .tile)
                     .opacity(0.05)
                     .ignoresSafeArea()
@@ -35,22 +36,32 @@ struct ContentView: View {
                 VStack {
                     HStack {
                         Button {
+                            showingInfo.toggle()
+                        } label: {
+                            Image("bloom-icon")
+                                .resizable()
+                                .frame(width: 45, height: 45)
+                            Text("Druze")
+                                .font(.custom("RoundedMplus1c-Black", size: 30))
+                        }
+                        
+
+                        Spacer()
+
+                        Button {
                             addingCanvas.toggle()
                         } label: {
-                            HStack {
-                                Image("bloom-icon")
-                                    .resizable()
-                                    .frame(width: 50, height: 50)
-                                Text("Druze")
-                                    .font(.custom("RoundedMplus1c-Black", size: 30))
-                                Spacer()
-                                Image(systemName: "plus")
-                                    .font(.system(size: 20, weight: .bold))
-                            }
+                            Image(systemName: "plus")
+                            .font(.system(size: 26, weight: .bold))
                         }
-                        .foregroundStyle(.black)
                         .clipShape(RoundedRectangle(cornerRadius: 30))
                     }
+                    .foregroundStyle(.black)
+                    .padding(.init(top: 10, leading: 20, bottom: 20, trailing: 20))
+                    .background(
+                        Color.white.ignoresSafeArea(edges: .top)
+                    )
+                    
                     
                     if(canvasCollection.canvasCollection.collection.isEmpty) {
                         Spacer()
@@ -69,6 +80,7 @@ struct ContentView: View {
                                 .font(.custom("RoundedMplus1c-Black", size: 30))
                                 .multilineTextAlignment(.center)
                         }
+                        .padding(20)
                         Spacer()
                     } else {
                         ScrollView {
@@ -80,19 +92,17 @@ struct ContentView: View {
                                     }
                                 }
                             }
+                            .padding(.init(top: 0, leading: 20, bottom: 0, trailing: 20))
                         }
                     }
                 }
-                .padding()
-
             }
-            
-            
-            
-            
         }
         .sheet(isPresented: $addingCanvas) {
             CanvasCreation(canvasCollection: canvasCollection)
+        }
+        .sheet(isPresented: $showingInfo) {
+            AppInfo()
         }
     }
 }
@@ -170,9 +180,9 @@ struct CanvasCreation: View {
                     .frame(maxWidth: .infinity)
             }
             .font(.custom("RoundedMplus1c-Black", size: 30))
-            .foregroundStyle(.white)
+            .foregroundStyle(.black)
             .frame(maxWidth: .infinity)
-            .background(.green)
+            .background(Color("druze-green"))
             .clipShape(RoundedRectangle(cornerRadius: 20))
             .disabled(text.isEmpty ? true : false)
             .opacity(text.isEmpty ? 0.5 : 1)
@@ -180,3 +190,50 @@ struct CanvasCreation: View {
         .padding()
     }
 }
+
+struct AppInfo: View {
+    @Environment(\.dismiss) var dismiss
+    
+    var body: some View {
+        VStack {
+            Image("bloom-icon")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 150)
+                .padding()
+            
+            Text("Druze 1.0")
+                .font(.custom("RoundedMplus1c-Black", size: 30))
+                .multilineTextAlignment(.center)
+                .padding(20)
+            
+            Text("Drew Brown")
+                .font(.custom("RoundedMplus1c-Black", size: 30))
+                .multilineTextAlignment(.center)
+                .padding(20)
+            
+            Text("12.13.23")
+                .font(.custom("RoundedMplus1c-Black", size: 30))
+                .multilineTextAlignment(.center)
+                .padding(20)
+                .opacity(0.5)
+            
+            Spacer()
+            
+            Button() {
+                dismiss()
+            } label: {
+                Text("Cool")
+                    .padding()
+                    .frame(maxWidth: .infinity)
+            }
+            .font(.custom("RoundedMplus1c-Black", size: 30))
+            .foregroundStyle(.gray)
+            .frame(maxWidth: .infinity)
+            .background(.thinMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: 20))
+        }
+        .padding()
+    }
+}
+

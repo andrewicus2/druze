@@ -45,6 +45,7 @@ struct CustCanvas: View {
                                     shapeView
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
+                                        .frame(width: 200)
                                         .foregroundStyle(stackItem.backgroundColor)
                                 }
                                 else if let textView = viewItem.textView {

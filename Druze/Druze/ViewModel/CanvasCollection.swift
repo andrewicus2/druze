@@ -26,7 +26,8 @@ class CanvasCollectionModel: ObservableObject {
     // Canvas Stack
     @Published var canvasCollection: CanvasCollection
     
-    let fileName = "Druze-Storage.json"
+//    let fileName = "Druze-Storage.json"
+    let fileName = "Druze-Empty-Storage.json"
     
     init() {
         canvasCollection = CanvasCollection(JSONfileName: fileName)
