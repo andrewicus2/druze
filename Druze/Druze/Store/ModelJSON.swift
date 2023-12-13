@@ -27,23 +27,23 @@ extension CanvasBaseModel {
     }
 }
 
-//extension CanvasCollection {
-//    func saveAsJSON(fileName: String) {
-//        do {
-//            try saveJSON(fileName: fileName, val: self);
-//        }
-//        catch {
-//            fatalError("Collection saveAsJSON error \(error)")
-//        }
-//    }
-//    
-//    init(JSONfileName fileName: String) {
-//        group = []
-//        do {
-//            self = try loadJSON(CanvasCollection.self, fileName: fileName)
-//        } catch {
-//            // fatalError("Model init error \(error)")
-//            print("Model init JSONfileName error \(error)")
-//        }
-//    }
-//}
+extension CanvasCollection {
+    func saveAsJSON(fileName: String) {
+        do {
+            try saveJSON(fileName: fileName, val: self);
+        }
+        catch {
+            fatalError("Collection saveAsJSON error \(error)")
+        }
+    }
+    
+    init(JSONfileName fileName: String) {
+        collection = []
+        do {
+            self = try loadJSON(CanvasCollection.self, fileName: fileName)
+        } catch {
+            // fatalError("Model init error \(error)")
+            print("Model init JSONfileName error \(error)")
+        }
+    }
+}

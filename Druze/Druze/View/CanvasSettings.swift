@@ -12,7 +12,7 @@ struct CanvasSettings: View {
     @State private var resetConfirmation: Bool = false
     @Environment(\.dismiss) var dismiss
     @StateObject var canvasModel: CanvasViewModel
-    @Binding var canvasName: String
+    @State var canvasName: String = "Canvas Name"
     @State private var bgPhoto: PhotosPickerItem?
     @Binding var lines: [Line]
 
@@ -29,11 +29,17 @@ struct CanvasSettings: View {
                             .font(.custom("RoundedMplus1c-Black", size: 20))
                             .opacity(0.5)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                        TextField("Title", text: $canvasName)
+                        Text(canvasName)
                             .font(.custom("RoundedMplus1c-Black", size: 30))
                             .padding(20)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                             .background(.thinMaterial)
                             .clipShape(RoundedRectangle(cornerRadius: 20))
+//                        TextField("Title", text: $canvasName)
+//                            .font(.custom("RoundedMplus1c-Black", size: 30))
+//                            .padding(20)
+//                            .background(.thinMaterial)
+//                            .clipShape(RoundedRectangle(cornerRadius: 20))
                     }
                     
                     VStack(spacing: 5) {
@@ -104,6 +110,12 @@ struct CanvasSettings: View {
             .clipShape(RoundedRectangle(cornerRadius: 20))
         }
         .padding()
+        .onAppear() {
+            canvasName = canvasModel.canvasBaseModel.canvasName
+        }
+        .onChange(of: canvasName) {
+            canvasModel.canvasBaseModel.canvasName = canvasName
+        }
         .onChange(of: bgPhoto) {
             Task {
                 if let data = try? await bgPhoto?.loadTransferable(type: Data.self) {

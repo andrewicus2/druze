@@ -19,7 +19,7 @@ class CanvasViewModel: ObservableObject {
     @Published var canvasBaseModel: CanvasBaseModel
     
     var fileName: String
-    
+        
     @Published var selected: StackItem?
     
     @Published var viewStack: [String : StackItemView]
@@ -31,11 +31,10 @@ class CanvasViewModel: ObservableObject {
         print("Model Init")
         
         fileName = inFileName
-                
         canvasBaseModel = CanvasBaseModel(JSONfileName: fileName, inCanvasName: inCanvasName)
         backgroundImage = UIImage(imageLiteralResourceName: "druze-default")
         viewStack = [:]
-        
+                
         if !canvasBaseModel.stack.isEmpty {
             for stackItem in canvasBaseModel.stack {
                 if let imageData = stackItem.image {

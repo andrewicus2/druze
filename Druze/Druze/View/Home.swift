@@ -25,8 +25,6 @@ struct Home: View {
     @State private var selectedPhoto: PhotosPickerItem?
     @State private var drawingMode: Bool = false
     
-    @State var canvasName: String = "My Canvas"
-    
     @State var lines: [Line] = []
     @State private var selectedColor = Color.orange
     @State private var selectedThickness: CGFloat = 5
@@ -159,36 +157,36 @@ struct Home: View {
             
             
             // Title
-            HStack {
-                Button {
-                    canvasSettingsShown.toggle()
-                } label: {
-                    HStack {
-                        Text(canvasName)
-                            .font(.custom("RoundedMplus1c-Black", size: 30))
-                        
-                        Image(systemName: "chevron.down")
-                            .font(.system(size: 20, weight: .bold))
-                    }
-                }
-                .padding(24)
-                .foregroundStyle(.black)
-                .background(.ultraThinMaterial)
-                .clipShape(RoundedRectangle(cornerRadius: 30))
-            }
-            .contentShape(Rectangle())
-            .frame(maxHeight: .infinity, alignment: .top)
-            .ignoresSafeArea()
-            .padding(20)
+//            HStack {
+//                Button {
+//                    canvasSettingsShown.toggle()
+//                } label: {
+//                    HStack {
+//                        Text(canvasModel.canvasBaseModel.canvasName)
+//                            .font(.custom("RoundedMplus1c-Black", size: 30))
+//                        
+//                        Image(systemName: "chevron.down")
+//                            .font(.system(size: 20, weight: .bold))
+//                    }
+//                }
+//                .padding(24)
+//                .foregroundStyle(.black)
+//                .background(.ultraThinMaterial)
+//                .clipShape(RoundedRectangle(cornerRadius: 30))
+//            }
+//            .contentShape(Rectangle())
+//            .frame(maxHeight: .infinity, alignment: .top)
+//            .ignoresSafeArea()
+//            .padding(20)
         }
-        
+        .navigationTitle(canvasModel.canvasBaseModel.canvasName)
         .alert(canvasModel.errorMessage, isPresented: $canvasModel.showError) {}
         .sheet(isPresented: $addingText) {
             TextCreation(canvasModel: canvasModel)
         }.sheet(isPresented: $addingShape) {
             ShapeCreation(canvasModel: canvasModel)
         }.sheet(isPresented: $canvasSettingsShown) {
-            CanvasSettings(canvasModel: canvasModel, canvasName: $canvasName, lines: $lines)
+            CanvasSettings(canvasModel: canvasModel, lines: $lines)
         }
         .onChange(of: selectedPhoto) {
             Task {

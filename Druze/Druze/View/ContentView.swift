@@ -5,38 +5,67 @@
 //  Created by drew on 11/24/23.
 //
 
+
+///**TODO:**
+///  - Store CanvasCollection in json
+///  - Tie inputted canvas name to displayed and editable canvas name
+///  - Front end for home screen
+
 import SwiftUI
 
 struct ContentView: View {
     @State private var deleteConfirmation: Bool = false
     @State private var addingCanvas: Bool = false
         
-    @StateObject var canvasCollection: CanvasCollection = CanvasCollection()
+    @StateObject var canvasCollection: CanvasCollectionModel = CanvasCollectionModel()
     
+    private let columns = [
+        GridItem(.flexible(), spacing: 10),
+        GridItem(.flexible(), spacing: 10)
+    ]
+
     var body: some View {
         NavigationStack {
+            
             VStack {
-                Button() {
-                    addingCanvas.toggle()
-                } label: {
-                    VStack {
-                        Image(systemName: "plus")
-                        Text("create new canvas")
+                HStack {
+                    Button {
+                        addingCanvas.toggle()
+                    } label: {
+                        HStack {
+                            Image("bloom-icon")
+                                .resizable()
+                                .frame(width: 50, height: 50)
+                            Text("Druze")
+                                .font(.custom("RoundedMplus1c-Black", size: 30))
+                            Spacer()
+                            Image(systemName: "plus")
+                                .font(.system(size: 20, weight: .bold))
+                        }
+                    }
+                    .foregroundStyle(.black)
+                    .clipShape(RoundedRectangle(cornerRadius: 30))
+                }
+                
+                ScrollView {
+                    LazyVGrid(columns: columns, spacing: 10) {
+                        ForEach(canvasCollection.canvasCollection.collection, id: \.self) { canvasInfo in
+                            NavigationLink(destination: Home(canvasModel: CanvasViewModel(inFileName: canvasInfo.id, inCanvasName: canvasInfo.name)) ) {
+                                ButtonView(name: canvasInfo.name)
+                                    .frame(maxWidth: .infinity)
+                            }
+                        }
                     }
                 }
-            } 
-            NavigationLink("Default Canvas") {
-//                Home(canvasModel: CanvasViewModel(inFileName: "cnvas-json-testing.json"))
             }
-
-            ForEach(canvasCollection.collection, id: \.self) { canvasInfo in
-                NavigationLink(canvasInfo.name) {
-                    Home(canvasModel: CanvasViewModel(inFileName: canvasInfo.id, inCanvasName: canvasInfo.name))
-                }
-            }
+            .padding()
+            
+            
+            
+            
         }
         .sheet(isPresented: $addingCanvas) {
-            CanvasCreation(canvasCollection: $canvasCollection.collection)
+            CanvasCreation(canvasCollection: canvasCollection)
         }
     }
 }
@@ -45,14 +74,38 @@ struct ContentView: View {
     ContentView()
 }
 
+struct ButtonView: View {
+    var name: String
+    
+    var body: some View {
+        ZStack {
+            Image("druze-default")
+                .resizable()
+                .frame(maxWidth: .infinity)
+                .aspectRatio(contentMode: .fill)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+            VStack {
+                Text(name)
+            }
+            .padding(10)
+        }
+            .foregroundColor(Color.black)
+            .font(.custom("RoundedMplus1c-Black", size: 20))
+            .padding(10)
+            .frame(maxWidth: .infinity, maxHeight: 300)
+            .background(.thinMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: 20))
+    }
+}
+
 struct CanvasCreation: View {
     @Environment(\.dismiss) var dismiss
-    @Binding var canvasCollection: [CanvasInfo]
+    @StateObject var canvasCollection: CanvasCollectionModel
     @State var text = ""
     
     var body: some View {
         VStack {
-            Text("Add Some Text")
+            Text("Give your Bloom a Name!")
                 .font(.custom("RoundedMplus1c-Black", size: 30))
                 .padding(20)
             
@@ -81,7 +134,7 @@ struct CanvasCreation: View {
             
             
             Button() {
-                canvasCollection.append(CanvasInfo(id: "\(UUID().uuidString).json", name: text))
+                canvasCollection.addCanvas(canvasID: "\(UUID().uuidString).json", canvasName: text)
                 dismiss()
             } label: {
                 Text("Save")

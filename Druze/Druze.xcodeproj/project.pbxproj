@@ -101,11 +101,11 @@
 			isa = PBXGroup;
 			children = (
 				3A2EE91B2B1D1A2A000A83DD /* Info.plist */,
+				3A9335362B1121C2006B4916 /* Druze.swift */,
 				3A2EE90C2B1D1970000A83DD /* project_fonts */,
 				3A9335462B112568006B4916 /* ViewModel */,
 				3A9335452B11255B006B4916 /* Model */,
 				3A9335442B112551006B4916 /* View */,
-				3A9335362B1121C2006B4916 /* Druze.swift */,
 				3A6F122B2B1FD94F00CD5D07 /* Store */,
 				3A93353A2B1121C3006B4916 /* Assets.xcassets */,
 				3A93353C2B1121C3006B4916 /* Preview Content */,
