@@ -3,9 +3,12 @@
 # About
 [**Final Presentation**](https://www.figma.com/proto/FQBEy3bloUIJs9qN8vAxy5/MoLab?page-id=109%3A157&type=design&node-id=109-158&viewport=515%2C429%2C0.05&t=mhuJgjiGdKGh4NEF-1&scaling=contain&mode=design)
 
-Druze is a collage making app where users can upload images from their camera roll, add text labels, add shapes, and draw onto a free-form canvas. Users can have multiple "Blooms" (collages) that are all stored to their device using json files. The app is maybe 40% complete right now with many quality-of-life features lacking and several key features have yet to be implemented.
+Druze is a collage making app where users can upload images from their camera roll, add text labels, add shapes, and draw onto a free-form canvas. Users can have multiple "Blooms" (collages) that are all stored to their device using json files. The app is maybe 40% complete right now with many quality-of-life features lacking and several key features that have yet to be implemented.
 
 This app was created over 3 weeks as the final project for my Fall 2023 Mobile App Development Class at NYU IMA led by John Henry Thompson. 
+
+# Inspiration
+My original plan for this project was to make a collaborative canvas. I imagined something similar to [Landing](https://landing.space/), [Pinterest Shuffles](https://www.shffls.com/), or [ID by Amo](https://x.com/amoamoamo/status/1726212349151871095?s=20). My hopes were quickly dashed away when I realized how difficult it would be to build just a single-player canvas. I shifted my focus around creating a solid single-player collage creation system. 
 
 # Completed Features
 - Upload images from camera roll
@@ -26,6 +29,9 @@ This app was created over 3 weeks as the final project for my Fall 2023 Mobile A
 - Default options for canvas backgrounds
 - Undo / redo
 - Bunch of different QoL changes (delete canvases from home screen, user profiles, movement is janky, loading is slow...)
+
+# Future Plans
+Going forward, I think the most important feature will be to implement sharing of Blooms. How else will your friends find out about the app? Big picture, I imagine creating a sort of social media app where users create an account and can share their Blooms onto a feed and collaborate with other users (but that's a long way off). 
 
 # Works Cited
 - [SwiftUI Canvas Editor With Advanced Gestures & Haptics - MVVM - Xcode 13 - SwiftUI Tutorials](https://youtu.be/zvdHmnp8sLA) - Kavsoft
