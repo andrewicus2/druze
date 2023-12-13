@@ -143,6 +143,6 @@ struct CanvasSettings: View {
     }
 }
 
-//#Preview {
-//    Home()
-//}
+#Preview {
+    Home(canvasModel: CanvasViewModel(inFileName: "testing", inCanvasName: "testing.json"))
+}

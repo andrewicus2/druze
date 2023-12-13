@@ -24,6 +24,7 @@ struct Home: View {
     @State private var canvasSettingsShown: Bool = false
     @State private var selectedPhoto: PhotosPickerItem?
     @State private var drawingMode: Bool = false
+    @Environment(\.dismiss) var dismiss
     
     @State var lines: [Line] = []
     @State private var selectedColor = Color.orange
@@ -38,6 +39,15 @@ struct Home: View {
             CustCanvas()
                 .environmentObject(canvasModel)
                 .ignoresSafeArea()
+            
+//            if let image = CustCanvas()
+//                .environmentObject(canvasModel)
+//                .ignoresSafeArea()
+//                .snapshot(scale: 2.0) {
+//                Button("Save") {
+//                    UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+//                }
+//            }
             
             // Drawing layer
             Canvas {ctx, size in
@@ -179,7 +189,35 @@ struct Home: View {
 //            .ignoresSafeArea()
 //            .padding(20)
         }
-        .navigationTitle(canvasModel.canvasBaseModel.canvasName)
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                HStack {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "chevron.backward")
+                            .font(.system(size: 15, weight: .heavy))
+                    }
+                    Spacer()
+                    Text(canvasModel.canvasBaseModel.canvasName)
+                        .font(.custom("RoundedMplus1c-Black", size: 23))
+
+                    Spacer()
+                    Button {
+                        canvasSettingsShown.toggle()
+                    } label: {
+                        HStack {
+                       
+                            Image(systemName: "gearshape")
+                                .font(.system(size: 15, weight: .heavy))
+                        }
+                    }
+                }
+                .foregroundStyle(.black)
+            }
+        }
         .alert(canvasModel.errorMessage, isPresented: $canvasModel.showError) {}
         .sheet(isPresented: $addingText) {
             TextCreation(canvasModel: canvasModel)

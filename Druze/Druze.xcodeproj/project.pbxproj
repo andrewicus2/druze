@@ -25,6 +25,7 @@
 		3A93354C2B112697006B4916 /* CanvasViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A93354B2B112697006B4916 /* CanvasViewModel.swift */; };
 		3A93354E2B11272F006B4916 /* StackItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A93354D2B11272F006B4916 /* StackItem.swift */; };
 		3ABCA6B72B290B9700572862 /* CanvasCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ABCA6B62B290B9700572862 /* CanvasCollection.swift */; };
+		3ABCA6BB2B295DEC00572862 /* CanvasSaving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ABCA6BA2B295DEC00572862 /* CanvasSaving.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		3A93354B2B112697006B4916 /* CanvasViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasViewModel.swift; sourceTree = "<group>"; };
 		3A93354D2B11272F006B4916 /* StackItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackItem.swift; sourceTree = "<group>"; };
 		3ABCA6B62B290B9700572862 /* CanvasCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasCollection.swift; sourceTree = "<group>"; };
+		3ABCA6BA2B295DEC00572862 /* CanvasSaving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasSaving.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +149,7 @@
 				3A93354B2B112697006B4916 /* CanvasViewModel.swift */,
 				3A6F12302B1FD9F700CD5D07 /* CanvasBaseModel.swift */,
 				3ABCA6B62B290B9700572862 /* CanvasCollection.swift */,
+				3ABCA6BA2B295DEC00572862 /* CanvasSaving.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -239,6 +242,7 @@
 				3A2EE91D2B1D22EB000A83DD /* CanvasSettings.swift in Sources */,
 				3A6F122D2B1FD95D00CD5D07 /* ModelJSON.swift in Sources */,
 				3A6F12332B21892D00CD5D07 /* StackItemView.swift in Sources */,
+				3ABCA6BB2B295DEC00572862 /* CanvasSaving.swift in Sources */,
 				3A9335372B1121C2006B4916 /* Druze.swift in Sources */,
 				3A93354A2B11268C006B4916 /* CusCanvas.swift in Sources */,
 			);
