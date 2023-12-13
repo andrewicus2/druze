@@ -38,6 +38,6 @@ Going forward, I think the most important feature will be to implement sharing o
 - [Create a custom navigation bar and link in SwiftUI | Advanced Learning #12](https://www.youtube.com/watch?v=aIDT4uuMLHc) - Swiftful Thinking
 - [Hacking with iOS: SwiftUI Edition](https://www.hackingwithswift.com/books/ios-swiftui) - Paul Hudson
 - [Drawing App in SwiftUI3, Canvas, iOS 15](https://www.youtube.com/watch?v=qoL6pBwdANY) - DevTechie
-- [Stack Overflow](https://stackoverflow.com/)
+- [Stack Overflow](https://stackoverflow.com/) (lots of it)
 
 
