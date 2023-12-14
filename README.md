@@ -40,4 +40,7 @@ Going forward, I think the most important feature will be to implement sharing o
 - [Drawing App in SwiftUI3, Canvas, iOS 15](https://www.youtube.com/watch?v=qoL6pBwdANY) - DevTechie
 - [Stack Overflow](https://stackoverflow.com/) (lots of it)
 
+# Additional Info
+Check out my project from my javascript class last spring! It's another canvas based photo editing app! [Neocities Link](https://andrewicus.neocities.org/p5-photo/)
+
 
