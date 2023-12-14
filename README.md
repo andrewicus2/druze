@@ -34,6 +34,7 @@ My original plan for this project was to make a collaborative canvas. I imagined
 Going forward, I think the most important feature will be to implement sharing of Blooms. How else will your friends find out about the app? Big picture, I imagine creating a sort of social media app where users create an account and can share their Blooms onto a feed and collaborate with other users (but that's a long way off). 
 
 # Works Cited
+- [06-ChipsSaveJSON](https://github.com/molab-itp/06-ChipsSaveJSON) - jht
 - [SwiftUI Canvas Editor With Advanced Gestures & Haptics - MVVM - Xcode 13 - SwiftUI Tutorials](https://youtu.be/zvdHmnp8sLA) - Kavsoft
 - [Create a custom navigation bar and link in SwiftUI | Advanced Learning #12](https://www.youtube.com/watch?v=aIDT4uuMLHc) - Swiftful Thinking
 - [Hacking with iOS: SwiftUI Edition](https://www.hackingwithswift.com/books/ios-swiftui) - Paul Hudson
